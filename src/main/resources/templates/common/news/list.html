@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>新闻列表页</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+    <link rel="stylesheet" th:href="@{/wechat/css/style.css}">
+</head>
+
+<!--注意此处body有背景色的class-->
+<body>
+<div class="header" style="background: #FFFFFF;">
+    <img th:src="@{/wechat/images/bg/bg-mdpi.png}" width="100%"/>
+    <img th:src="@{/wechat/images/underline-mdpi.png}" width="100%" style="display: block; margin-top: 10px;"/>
+</div>
+<div class="panel-group container">
+
+    <div th:each="item : ${items}">
+        <div class="panel panel-order" style="background: #FFFFFF;border-radius: 5px;" th:onclick="'javascript:location.href=\'detail?idNews=' + ${item.idNews} + '\'' ">
+            <div class="panel-body">
+                <div align="center">
+					<span style="float: left; width: 70%;">
+						<div style="float: left;width: 100%;">
+							<span style="float: left;"><img th:src="@{/wechat/images/icons/fire-mdpi.png}" width="50%"
+                                                            style="display: block;"/></span>
+							<span style="float: left;">
+								<font size="2">热文推荐</font>
+								<font size="2" color="#BFBFBF" th:text="${item.createTime}"></font>
+							</span>
+						</div>
+						<div style="float: left;padding: 10px;" align="left">
+							<font size="3" th:text="${item.title}"></font>
+						</div>
+						<!--<div style="float: left;">
+							<font size="2" color="#BFBFBF" th:text="${item.sketch}"></font>
+						</div>-->
+					</span>
+                    <span style="float: right;width: 30%;">
+						<img th:src="${item.picture}" width="100%" style="margin-top: 10px"/>
+					</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+</body>
+<script src="//cdn.bootcss.com/jquery/1.11.1/jquery.min.js"></script>
+<script th:src="@{/wechat/js/touch.js}"></script>
+<script th:src="@{/wechat/js/main.js}"></script>
+</html>

@@ -1,0 +1,81 @@
+#开发环境配置
+
+#Tomcat配置
+server:
+  port: 8086
+  servlet:
+    context-path: /plansolve
+    session:
+      cookie:
+        name: SESSIONID
+        max-age: 2592000
+  tomcat:
+    uri-encoding: UTF-8
+
+#数据库配置
+spring:
+  datasource:
+    driver-class-name: com.mysql.jdbc.Driver
+    url: jdbc:mysql://rm-hp3b32jos339upm0xuo.mysql.huhehaote.rds.aliyuncs.com:3306/farm?useUnicode=yes&characterEncoding=UTF-8&useSSL=false
+    username: yhyapp
+    password: YHY123qwe
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: false
+  http:
+    encoding:
+      charset: UTF-8
+      enabled: true
+      force: true
+  thymeleaf:
+    cache: true
+    encoding: UTF-8
+    suffix: .html
+    check-template-location: true
+    servlet:
+      content-type: text/html
+    enabled: true
+  servlet:
+      multipart:
+        max-file-size: 5MB
+        max-request-size: 10MB
+
+# 缓存配置
+cache:
+  type: ehcache
+  ehcache:
+    config: classpath:ehcache.xml
+
+#项目访问地址
+projectURL: "http://tgzj.plan-solve.com/plansolve"
+
+#文件保存地址
+file:
+  fileRealPath: "/home/uploadFiles/"
+  fileUrlPath: "//tgzj.plan-solve.com/plansolve/file/"
+
+#验证码服务
+message:
+  url: "http://service.winic.org/sys_port/gateway/index.asp"
+  id: "pulansuo"
+  pwd: "123qweQWE"
+
+# 微信
+wechat:
+  miniAppId: "wx7525b3efcb4eaae4"
+  miniAppSecret: "9e82c5d7d81604e809dc3d1ecf201f81"
+  miniAppToken: ""
+  miniAppAesKey: ""
+  miniAppMsgDataFormat: ""
+  mpAppId: "wx42de84d421e85c42"
+  mpAppSecret: "11aec735fdaea9f111515fbdd18d2593"
+  mpToken: "plansolve"
+  appId: "wxb6cfa46502c3419f"
+  mchId: "1523392121"
+  mchKey: "D114138FD7EBC09A9D612E2F6A363657"
+  keyPath: "/home/farm/wechat_mp_pay/apiclient_cert.p12"
+  notifyUrl: "http://tgzj.plan-solve.com/plansolve/farm/order/pay/notify"
+
+#开发者模式
+development: false

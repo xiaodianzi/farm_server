@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <div th:include="main/head::html"></div>
+    <link th:href="@{/console/css/bootstrap-table.css}" rel="stylesheet">
+</head>
+<body>
+<div th:include="main/title::html"></div>
+<div class="col-sm-9 col-sm-offset-3 col-lg-10 col-lg-offset-2 main">
+    <div class="row">
+        <ol class="breadcrumb">
+            <li><a href="/plansolve/home"><span class="glyphicon glyphicon-home"></span></a></li>
+            <li class="active">农学院</li>
+            <li class="active">粮食市场</li>
+        </ol>
+    </div>
+    <div class="row">
+        <div class="col-lg-12">
+            <h1 class="page-header">农作物购销明细</h1>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <input type="number" placeholder="请输入发布人ID" name="idUser"
+                           id="_idUser" style="float: left; width: 20%; margin-right: 5px;"
+                           class="form-control">
+                    <select style="float: left; width: 20%; margin-right: 5px;" class="form-control"
+                            name="marketType" id="_marketType">
+                        <option value="default" selected>请选择消息类型</option>
+                        <option value="grainSale">粮食出售</option>
+                        <option value="grainBuy">粮食收购</option>
+                    </select>
+                    <select style="float: left; width: 20%; margin-right: 5px;" class="form-control"
+                            name="grainType" id="_grainType">
+                        <option value="default" selected>请选择农作物类型</option>
+                        <option value="rice">水稻</option>
+                        <option value="corn">玉米</option>
+                        <option value="sorghum">高粱</option>
+                        <option value="wheat">小麦</option>
+                        <option value="soybean">大豆</option>
+                    </select>
+                    <select style="float: left; width: 20%; margin-right: 5px;" class="form-control"
+                            name="validTime" id="_validTime">
+                        <option value="default" selected>请选择有效期类型</option>
+                        <option value="weekValid">一周</option>
+                        <option value="halfMonthValid">半个月</option>
+                        <option value="monthValid">一个月</option>
+                        <option value="quarterValid">三个月</option>
+                        <option value="halfYearValid">六个月</option>
+                        <option value="yearValid">一年</option>
+                        <option value="longTermValid">长期有效</option>
+                    </select>
+                    <button style="float: left; width: 60px; margin-right: 5px;" class="form-control"
+                            onclick="search()">查询
+                    </button>
+                    <button style="float: left; width: 60px; margin-right: 5px;" class="form-control"
+                            onclick="refresh()">重置
+                    </button>
+                </div>
+                <div class="panel-body">
+                    <table data-toggle="table" data-pagination="true" data-side-pagination="server"
+                           id="table" data-url="/plansolve/manager/web/grainmarket/getInformationByType"
+                           data-page-list="[10, 20, 50, 100]">
+                        <thead>
+                        <tr>
+                            <th data-field="idGrainMarket">ID</th>
+                            <th data-field="idUser">发布人ID</th>
+                            <th data-field="mobile">联系电话</th>
+                            <th data-field="marketType">消息类型</th>
+                            <th data-field="grainType">农作物类型</th>
+                            <th data-field="amount">粮食数量(吨)</th>
+                            <th data-field="salePrice">出售价格</th>
+                            <th data-field="minimumBuyPrice">收购最低价</th>
+                            <th data-field="highestBuyPrice">收购最高价</th>
+                            <th data-field="validTime">有效期</th>
+                            <th data-field="createTime">发布时间</th>
+                        </tr>
+                        </thead>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div th:include="main/foot::html"></div>
+<script th:src="@{/console/js/jquery-1.11.1.min.js}"></script>
+<script th:src="@{/console/js/bootstrap-table.js}"></script>
+<script>
+    $(window).on('resize', function () {
+        if ($(window).width() > 768) $('#sidebar-collapse').collapse('show')
+    });
+    $(window).on('resize', function () {
+        if ($(window).width() <= 767) $('#sidebar-collapse').collapse('hide')
+    });
+    function search() {
+        var idUser = $("#_idUser").val();
+        var marketType = $("#_marketType").val();
+        var grainType = $("#_grainType").val();
+        var validTime = $("#_validTime").val();
+        var url = "/plansolve/manager/web/grainmarket/getInformationByType?idUser=" + idUser + "&marketType=" + marketType+ "&grainType=" + grainType+ "&validTime=" + validTime;
+        $("#table").bootstrapTable("refresh", {url: url});
+    }
+    function refresh() {
+        var url = "/plansolve/manager/web/grainmarket/getInformationByType";
+        $("#table").bootstrapTable("refresh", {url: url});
+    }
+</script>
+</body>
+</html>

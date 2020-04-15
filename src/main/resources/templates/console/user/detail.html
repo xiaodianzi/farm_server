@@ -1,0 +1,264 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<head>
+	<div th:include="main/head::html"></div>
+	<link th:href="@{/console/css/bootstrap-table.css}" rel="stylesheet">
+	<style>
+		td {
+			padding: 5px;
+		}
+	</style>
+</head>
+<body>
+<div th:include="main/title::html"></div>
+	<div class="col-sm-9 col-sm-offset-3 col-lg-10 col-lg-offset-2 main">			
+		<div class="row">
+			<ol class="breadcrumb">
+				<li><a href="/plansolve/home"><span class="glyphicon glyphicon-home"></span></a></li>
+				<li><a href="/plansolve/manger/app/user/appUserPage">客户端用户列表</a></li>
+				<li class="active">用户详情</li>
+			</ol>
+		</div>
+		<div class="row">
+			<div class="col-lg-12">
+				<h1 class="page-header" th:text="${user.nickname} + ' - 用户详情'"></h1>
+			</div>
+		</div>
+
+		<div class="row">
+			<div class="col-md-3">
+				<div class="panel panel-info">
+					<div class="panel-heading">用户基本信息</div>
+					<div class="panel-body">
+						<img th:if="${avatar eq null || avatar eq ''}" th:src="@{/console/image/user-default.png}" height="150px" style="padding: 20px;" />
+						<img th:if="${avatar ne null && avatar ne ''}" th:src="${avatar}" height="150px" style="padding: 20px;" />
+						<div class="form-group">
+							<label th:text="'用户名：' + ${user.nickname}"></label>
+						</div>
+						<div class="form-group">
+							<label th:text="'联系方式：' + ${user.mobile}"></label>
+						</div>
+						<div class="form-group">
+							<label th:text="'用户身份：' + ${user.identity}"></label>
+						</div>
+						<div class="form-group">
+							<label th:text="'当前状态：' + ${user.userState}"></label>
+						</div>
+						<div class="form-group">
+							<label th:text="'注册时间：' + ${user.registTime}"></label>
+						</div>
+						<div class="form-group">
+							<label th:text="'更新时间：' + ${user.updateTime}"></label>
+						</div>
+					</div>
+				</div>
+
+				<div class="panel panel-info">
+					<div class="panel-heading">用户钱包</div>
+					<div class="panel-body">
+						<div class="form-group">
+							<label th:text="'钱包余额：' + ${account.accountBalance}"></label>
+						</div>
+						<div class="form-group">
+							<label th:text="'钱包状态：' + ${account.accountState}"></label>
+						</div>
+						<div class="form-group">
+							<label th:text="'开户时间：' + ${#calendars.format(account.accountOpeningTime,'yyyy-MM-dd HH:mm:ss')}"></label>
+						</div>
+						<div class="form-group">
+							<label th:text="'更新时间：' + ${#calendars.format(account.accountUpdateTime,'yyyy-MM-dd HH:mm:ss')}"></label>
+						</div>
+						<div class="form-group">
+							<label th:text="'余额变动时间：' + ${#calendars.format(account.accountBalanceChangeTime,'yyyy-MM-dd HH:mm:ss')}"></label>
+						</div>
+					</div>
+				</div>
+
+				<div class="panel panel-info">
+					<div class="panel-body tabs">
+						<ul class="nav nav-pills">
+							<li class="active"><a href="#pilltab1" data-toggle="tab">用户土地</a></li>
+							<li><a href="#pilltab2" data-toggle="tab">用户农机</a></li>
+						</ul>
+
+						<div class="tab-content">
+							<div class="tab-pane fade in active" id="pilltab1">
+								<h4>土地列表</h4>
+								<table border="2px">
+									<tr>
+										<td>ID</td>
+										<td>名称</td>
+										<td>面积</td>
+										<td>地址</td>
+									</tr>
+									<div th:each="farmland : ${farmlands}">
+										<tr>
+											<td th:text="${farmland.idFarmland}"></td>
+											<td th:text="${farmland.farmlandName}"></td>
+											<td th:text="${farmland.farmlandAcreage} + '亩'"></td>
+											<td th:text="${farmland.farmlandAddress}"></td>
+										</tr>
+									</div>
+								</table>
+							</div>
+							<div class="tab-pane fade" id="pilltab2">
+								<h4>农机列表</h4>
+								<table border="2px">
+									<tr>
+										<td>ID</td>
+										<td>农机类型</td>
+										<td>作业能力</td>
+										<td>数量</td>
+									</tr>
+									<div th:each="machinery : ${machinerys}">
+										<tr>
+											<td th:text="${machinery.idMachinery}"></td>
+											<td th:text="${machinery.machineryType}"></td>
+											<td th:text="${machinery.machineryAbility} + '亩/时'"></td>
+											<td th:text="${machinery.count}"></td>
+										</tr>
+									</div>
+								</table>
+							</div>
+						</div>
+					</div>
+				</div>
+
+				<div class="panel panel-info" th:if="${cooperation ne null}">
+					<div class="panel-heading">合作社信息</div>
+					<div class="panel-body">
+						<table border="2px">
+							<tr>
+								<td class="table-title">合作社名称</td>
+								<td th:text="${cooperation.cooperationName}"></td>
+							</tr>
+							<tr>
+								<td class="table-title">合作社社长</td>
+								<td th:text="${proprieter.nickname + '[' + proprieter.mobile + ']'}"></td>
+							</tr>
+							<tr>
+								<td class="table-title">合作社地址</td>
+								<td th:text="${address}"></td>
+							</tr>
+							<tr>
+								<td class="table-title">注册时间</td>
+								<td th:text="${#calendars.format(cooperation.registTime,'yyyy-MM-dd HH:mm:ss')}"></td>
+							</tr>
+							<tr>
+								<td class="table-title">更新时间</td>
+								<td th:text="${#calendars.format(cooperation.updateTime,'yyyy-MM-dd HH:mm:ss')}"></td>
+							</tr>
+							<tr>
+								<td class="table-title">描述</td>
+								<td th:text="${cooperation.description}"></td>
+							</tr>
+						</table>
+						<hr>
+						<div class="form-group">
+							<label>合作社成员：</label>
+							<table border="2px">
+								<tr>
+									<td>姓名</td>
+									<td>联系方式</td>
+								</tr>
+								<div th:each="member : ${members}">
+									<tr>
+										<td th:text="${member.nickname}"></td>
+										<td th:text="${member.mobile}"></td>
+									</tr>
+								</div>
+							</table>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="col-md-9">
+				<div class="panel panel-warning">
+					<div class="panel-heading">用户种植户订单</div>
+					<div class="panel-body">
+						<table data-toggle="table" data-pagination="true" data-side-pagination="server"
+							   id="table" th:data-url="'/plansolve/manger/app/user/appUserOrderList?identity=0&idUser=' + ${user.idUser}" data-page-list="[10, 20, 50, 100]">
+							<thead>
+							<tr>
+								<th data-field="userOrderNo">订单编号</th>
+								<th data-field="userOrderState">状态</th>
+								<th data-field="cropName">作物</th>
+								<th data-field="machineryType">农机类型</th>
+								<th data-field="receiveByDetail">接单人</th>
+								<th data-field="createTime">下单时间</th>
+								<th data-field="button">操作</th>
+							</tr>
+							</thead>
+						</table>
+					</div>
+				</div>
+
+				<div class="panel panel-warning">
+					<div class="panel-heading">用户农机手订单</div>
+					<div class="panel-body">
+						<table data-toggle="table" data-pagination="true" data-side-pagination="server"
+							   id="table" th:data-url="'/plansolve/manger/app/user/appUserOrderList?identity=1&idUser=' + ${user.idUser}" data-page-list="[10, 20, 50, 100]">
+							<thead>
+							<tr>
+								<th data-field="userOrderNo">订单编号</th>
+								<th data-field="userOrderState">状态</th>
+								<th data-field="cropName">作物</th>
+								<th data-field="machineryType">农机类型</th>
+								<th data-field="createByDetail">下单人</th>
+								<th data-field="createTime">下单时间</th>
+								<th data-field="button">操作</th>
+							</tr>
+							</thead>
+						</table>
+					</div>
+				</div>
+
+				<div class="panel panel-warning">
+					<div class="panel-heading">账户明细</div>
+					<div class="panel-body">
+						<table border="1px">
+							<tr>
+								<td>ID</td>
+								<td>钱包类型</td>
+								<td>动作类型</td>
+								<td>变更前金额</td>
+								<td>变更金额</td>
+								<td>变更后金额</td>
+								<td>发生时间</td>
+							</tr>
+							<div th:each="log : ${accountLogs}">
+								<tr>
+									<td th:text="${log.idAccountLog}"></td>
+									<td th:text="${log.accountType}"></td>
+									<td th:text="${log.changeType}"></td>
+									<td th:text="'￥' + ${log.beforeAccountBalance == null ? '' : log.beforeAccountBalance}"></td>
+									<td th:text="${log.changeNum}"></td>
+									<td th:text="'￥' + ${log.afterAccountBalance == null ? '' : log.afterAccountBalance}"></td>
+									<td th:text="${#calendars.format(log.changeTime,'yyyy-MM-dd HH:mm:ss')}"></td>
+								</tr>
+							</div>
+						</table>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div th:include="main/foot::html"></div>
+	<script th:src="@{/console/js/bootstrap-table.js}"></script>
+	<script>
+		!function ($) {
+			$(document).on("click","ul.nav li.parent > a > span.icon", function(){		  
+				$(this).find('em:first').toggleClass("glyphicon-minus");	  
+			}); 
+			$(".sidebar span.icon").find('em:first').addClass("glyphicon-plus");
+		}(window.jQuery);
+
+		$(window).on('resize', function () {
+		  if ($(window).width() > 768) $('#sidebar-collapse').collapse('show')
+		})
+		$(window).on('resize', function () {
+		  if ($(window).width() <= 767) $('#sidebar-collapse').collapse('hide')
+		})
+	</script>	
+</body>
+</html>

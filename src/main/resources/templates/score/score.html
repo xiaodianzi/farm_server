@@ -1,0 +1,284 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <div th:include="main/head::html"></div>
+    <link th:href="@{/console/css/bootstrap-table.css}" rel="stylesheet">
+</head>
+<body>
+<div th:include="main/title::html"></div>
+<div class="col-sm-9 col-sm-offset-3 col-lg-10 col-lg-offset-2 main">
+    <div class="row">
+        <ol class="breadcrumb">
+            <li><a href="/plansolve/home"><span class="glyphicon glyphicon-home"></span></a></li>
+            <li class="active">积分管理</li>
+            <li class="active">积分规则</li>
+        </ol>
+    </div>
+    <div class="row">
+        <div class="col-lg-12">
+            <h1 class="page-header">积分规则列表</h1>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="panel panel-default">
+                <div class="panel-body">
+                    <div class="form-group">
+                        <div data-toggle="modal" data-target="#addScoreForm">
+                            <input type="button" class="btn btn-default"
+                                   style="width: 120px; background: #0099ff; margin-left: 25px; color: white"
+                                   value="添加"/>
+                        </div>
+                    </div>
+                    <table data-toggle="table" data-url="/plansolve/manager/app/score/getScoreInfo"
+                           data-show-refresh="true" id="table"
+                           data-show-toggle="true" data-show-columns="true" data-search="true" data-pagination="true"
+                           data-side-pagination="server" data-sort-name="idScoreRule" data-page-list="[10, 20, 50, 100]"
+                           data-sort-order="asc">
+                        <thead>
+                        <tr>
+                            <th data-field="idScoreRule" data-checkbox="true"></th>
+                            <th data-field="ruleName" data-sortable="true">规则名称</th>
+                            <th data-field="memo" data-sortable="true">规则描述</th>
+                            <th data-field="taskLabel" data-sortable="true">规则标签</th>
+                            <th data-field="rangeType" data-sortable="true">生效周期</th>
+                            <th data-field="ruleType" data-sortable="true">规则类型</th>
+                            <th data-field="actNum" data-sortable="true">达标条件</th>
+                            <th data-field="validTimes" data-sortable="true">可达标次数</th>
+                            <th data-field="availableTask" data-sortable="true">限制说明</th>
+                            <th data-field="increaseScore" data-sortable="true">达标积分</th>
+                            <th data-field="isValid" data-sortable="true">规则时效</th>
+                            <th data-field="button">相关操作</th>
+                        </tr>
+                        </thead>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!--新增积分模态框开始-->
+<div class="modal inmodal _dialog" id="addScoreForm" tabindex="-1"
+     role="dialog" aria-hidden="true"
+     style="display: none; top: 25%; left: 30%; width: 50%;">
+    <div class="col-lg-12">
+        <div class="panel panel-default">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span>
+                </button>
+                <h4 class="modal-title" style="text-align: center;">新增积分规则</h4>
+            </div>
+            <div class="panel-body">
+                <div class="col-md-12">
+                    <form role="form" th:method="POST" th:action="@{/manager/app/score/addScorePage}">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label>规则名称</label>
+                                <input th:type="text" th:name="ruleName" class="form-control"
+                                       placeholder="请输入积分规则的名称" required="required">
+                            </div>
+                            <div class="form-group">
+                                <label>规则描述</label>
+                                <input th:type="text" th:name="memo" class="form-control" placeholder="请输入积分规则的细则"
+                                       required="required">
+                            </div>
+                            <div class="form-group">
+                                <label>积分</label>
+                                <input th:type="number" min="0" th:name="increaseScore" class="form-control" placeholder="请输入达标后的积分"
+                                       required="required">
+                            </div>
+                            <div class="form-group">
+                                <label>规则标签</label>
+                                <input th:type="text" th:name="taskLabel" class="form-control" placeholder="请输入积分规则的标签"
+                                       required="required">
+                            </div>
+                            <div class="form-group">
+                                <label>限制说明</label>
+                                <input th:type="text" th:name="availableTask" class="form-control" placeholder="请输入规则限制说明"
+                                       required="required">
+                            </div>
+
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label>规则类型</label>
+                                <select th:name="ruleType" class="form-control" required="required">
+                                    <option>-- 请选择 --</option>
+                                    <option th:value="sign_in" th:text="'-- 每日签到 --'"/>
+                                    <option th:value="auth" th:text="'-- 完善信息 --'"/>
+                                    <option th:value="share_app" th:text="'-- APP分享 --'"/>
+                                    <option th:value="create_order" th:text="'-- 发布订单 --'"/>
+                                    <option th:value="accept_order" th:text="'-- 接单作业 --'"/>
+                                    <option th:value="diagnose_disease" th:text="'-- 农作物病虫害诊断 --'"/>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label>生效周期</label>
+                                <select th:name="rangeType" class="form-control" required="required">
+                                    <option>-- 请选择 --</option>
+                                    <option th:value="valid_once" th:text="'-- 一次性 --'"/>
+                                    <option th:value="valid_date" th:text="'-- 日时效 --'"/>
+                                    <option th:value="valid_week" th:text="'-- 周时效 --'"/>
+                                    <option th:value="valid_month" th:text="'-- 月时效 --'"/>
+                                    <option th:value="valid_year" th:text="'-- 年时效 --'"/>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label>生效条件</label>
+                                <input th:type="number" th:name="actNum" class="form-control"
+                                       placeholder="请输入达标所需的次数" required="required">
+                            </div>
+                            <div class="form-group">
+                                <label>有效次数</label>
+                                <input th:type="text" th:name="validTimes" class="form-control"
+                                       placeholder="请输入有效周期内可获积分的次数"
+                                       required="required">
+                            </div>
+                            <div class="form-group">
+                                <label>立即生效</label>
+                                <select th:name="isValid" class="form-control" required="required">
+                                    <option>-- 请选择 --</option>
+                                    <option th:value="true" th:text="'-- 是 --'"/>
+                                    <option th:value="false" th:text="'-- 否 --'"/>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-md-12" style="text-align: center;">
+                            <button th:type="submit" class="btn btn-primary" style="margin-right: 50px;">提交</button>
+                            <button th:type="reset" class="btn btn-default">重置</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!--新增积分规则模态框结束-->
+<!--修改积分规则模态框开始-->
+<div class="modal inmodal _dialog" id="editScoreForm" tabindex="-1"
+     role="dialog" aria-hidden="true"
+     style="display: none; top: 25%; left: 30%; width: 50%;">
+    <div class="col-lg-12">
+        <div class="panel panel-default">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span>
+                </button>
+                <h4 class="modal-title" style="text-align: center;">修改积分规则</h4>
+            </div>
+            <div class="panel-body">
+                <div class="col-md-12">
+                    <form role="form" th:method="POST" th:action="@{/manager/app/score/updateScorePage}">
+                        <input th:type="hidden" th:name="idScoreRule" class="form-control" required="required">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label>规则名称<span class="required">*</span></label>
+                                <input th:type="text" th:name="ruleName" class="form-control" required="required">
+                            </div>
+                            <div class="form-group">
+                                <label>规则描述<span class="required">*</span></label>
+                                <input th:type="text" th:name="memo" class="form-control" required="required">
+                            </div>
+                            <div class="form-group">
+                                <label>积分<span class="required">*</span></label>
+                                <input th:type="number" min="0" th:name="increaseScore" class="form-control" required="required">
+                            </div>
+                            <div class="form-group">
+                                <label>规则标签<span class="required">*</span></label>
+                                <input th:type="text" th:name="taskLabel" class="form-control" required="required">
+                            </div>
+                            <div class="form-group">
+                                <label>限制说明<span class="required">*</span></label>
+                                <input th:type="text" th:name="availableTask" class="form-control" required="required">
+                            </div>
+
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label>规则类型<span class="required">*</span></label>
+                                <select th:id="_ruleType" th:name="ruleType" class="form-control" required="required">
+                                    <option>-- 请选择 --</option>
+                                    <option th:value="sign_in" th:text="'-- 每日签到 --'"/>
+                                    <option th:value="auth" th:text="'-- 完善信息 --'"/>
+                                    <option th:value="share_app" th:text="'-- APP分享 --'"/>
+                                    <option th:value="create_order" th:text="'-- 发布订单 --'"/>
+                                    <option th:value="accept_order" th:text="'-- 接单作业 --'"/>
+                                    <option th:value="diagnose_disease" th:text="'-- 农作物病虫害诊断 --'"/>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label>生效周期<span class="required">*</span></label>
+                                <select th:id="_rangeType" th:name="rangeType" class="form-control" required="required">
+                                    <option>-- 请选择 --</option>
+                                    <option th:value="valid_once" th:text="'-- 一次性 --'"/>
+                                    <option th:value="valid_date" th:text="'-- 日时效 --'"/>
+                                    <option th:value="valid_week" th:text="'-- 周时效 --'"/>
+                                    <option th:value="valid_month" th:text="'-- 月时效 --'"/>
+                                    <option th:value="valid_year" th:text="'-- 年时效 --'"/>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label>生效条件<span class="required">*</span></label>
+                                <input th:type="number" th:name="actNum" class="form-control"
+                                       placeholder="请输入达标所需的次数" required="required">
+                            </div>
+                            <div class="form-group">
+                                <label>有效次数<span class="required">*</span></label>
+                                <input th:type="text" th:name="validTimes" class="form-control"
+                                       placeholder="请输入有效周期内可获积分的次数"
+                                       required="required">
+                            </div>
+                            <div class="form-group">
+                                <label>立即生效<span class="required">*</span></label>
+                                <select th:id="_isValid" th:name="isValid" class="form-control" required="required">
+                                    <option>-- 请选择 --</option>
+                                    <option th:value="true" th:text="'-- 是 --'"/>
+                                    <option th:value="false" th:text="'-- 否 --'"/>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-md-12" style="text-align: center;">
+                            <input name="res" type="reset" hidden/>
+                            <button th:type="submit" class="btn btn-primary" style="">提交</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!--修改积分规则模态框结束-->
+<div th:include="main/foot::html"></div>
+<script th:src="@{/console/js/bootstrap-table.js}"></script>
+<script>
+    !function ($) {
+        $(document).on("click", "ul.nav li.parent > a > span.icon", function () {
+            $(this).find('em:first').toggleClass("glyphicon-minus");
+        });
+        $(".sidebar span.icon").find('em:first').addClass("glyphicon-plus");
+    }(window.jQuery);
+
+    $(window).on('resize', function () {
+        if ($(window).width() > 768) $('#sidebar-collapse').collapse('show')
+    })
+    $(window).on('resize', function () {
+        if ($(window).width() <= 767) $('#sidebar-collapse').collapse('hide')
+    })
+</script>
+<script>
+    function editScoreForm(a,b,c,d,e,f,g,h,i,j,k) {
+        $("input[name='res']").click();
+        $("input[name='ruleName']").val(a);
+        $("input[name='increaseScore']").val(b);
+        $("input[name='memo']").val(c);
+        $("input[name='taskLabel']").val(d);
+        $('#_ruleType').find('option[value="'+e+'"]').attr("selected",true);
+        $("input[name='availableTask']").val(f);
+        $('#_rangeType').find('option[value="'+g+'"]').attr("selected",true);
+        $("input[name='actNum']").val(h);
+        $("input[name='validTimes']").val(i);
+        $('#_isValid').find('option[value="'+j+'"]').attr("selected",true);
+        $("input[name='idScoreRule']").val(k);
+    }
+</script>
+</body>
+</html>

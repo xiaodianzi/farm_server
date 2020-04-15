@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+	<head>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+		<title>实时粮价</title>
+		<link rel="stylesheet" th:href="@{/applet/css/common.css}">
+		<link rel="stylesheet" th:href="@{/applet/css/tab.css}">
+		<style>
+			a {
+				color: inherit;
+				text-decoration: none;
+				display: inline-block;
+			}
+			a:hover {
+				text-decoration: none;
+			}
+		</style>
+	</head>
+	<!--注意此处body有背景色的class-->
+	<body class="bg-white">
+		<div class="tab">
+			<div class="tab-header" data-cmd="switchTab">
+				<!--<div th:each="type : ${types}">
+					<a href="javascript:;" class="item" th:text="${type.crop}"></a>
+				</div>-->
+				<a href="javascript:;" class="item active" style="width: 50%;">玉米</a>
+				<a href="javascript:;" class="item" style="width: 50%;">水稻</a>
+			</div>
+			<div class="tab-body">
+				<div class="item active" style="margin: 20px;">
+					<iframe id="frame_1" src="item?idCerealsMassageType=1" onload="setIframeHeight(this)"></iframe>
+				</div>
+				<div class="item" style="margin: 20px;">
+					<iframe id="frame_2" src="item?idCerealsMassageType=2" onload="setIframeHeight(this)"></iframe>
+				</div>
+			</div>
+		</div>
+	</body>
+	<script src="//cdn.bootcss.com/jquery/1.11.1/jquery.min.js"></script>
+	<script th:src="@{/applet/js/touch.js}"></script>
+	<script th:src="@{/applet/js/tab.js}"></script>
+	<script>
+        function setIframeHeight(iframe) {
+            if (iframe) {
+                var iframeWin = iframe.contentWindow || iframe.contentDocument.parentWindow;
+                if (iframeWin.document.body) {
+                    iframe.height = iframeWin.document.documentElement.scrollHeight || iframeWin.document.body.scrollHeight;
+                }
+            }
+        };
+
+        window.onload = function () {
+            setIframeHeight(document.getElementById('frame_1'));
+            setIframeHeight(document.getElementById('frame_2'));
+        };
+	</script>
+</html>

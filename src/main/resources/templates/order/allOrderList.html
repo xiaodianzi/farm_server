@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <div th:include="main/head::html"></div>
+    <link th:href="@{/console/css/bootstrap-table.css}" rel="stylesheet">
+</head>
+<body>
+<div th:include="main/title::html"></div>
+<div class="col-sm-9 col-sm-offset-3 col-lg-10 col-lg-offset-2 main">
+    <div class="row">
+        <ol class="breadcrumb">
+            <li><a href="/plansolve/home"><span class="glyphicon glyphicon-home"></span></a></li>
+            <li class="active">用户订单</li>
+        </ol>
+    </div>
+    <div class="row">
+        <div class="col-lg-12">
+            <h1 class="page-header">用户订单列表</h1>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                <input type="text" placeholder="请输入订单编号" name="userOrderNo" id="userOrderNo"
+                       style="float: left; width: 20%; margin-right: 5px;" class="form-control">
+                <select style="float: left; width: 20%; margin-right: 5px;" class="form-control" name="userOrderState" id="userOrderState">
+                    <option value="all">所有状态</option>
+                    <option value="waiting">待接单</option>
+                    <option value="confirming">待确认</option>
+                    <option value="working">待作业</option>
+                    <option value="checking">待验收</option>
+                    <option value="payment">待支付</option>
+                    <option value="prepaid">已支付</option>
+                    <option value="receipt">确认收款</option>
+                    <option value="finished">已完成</option>
+                    <option value="canceled">已取消</option>
+                    <option value="overdue">已过期</option>
+                    <option value="deleted">已删除</option>
+                </select><button style="float: left; width: 60px; margin-right: 5px;" class="form-control" onclick="search()">查询</button>
+                </div>
+                <div class="panel-body">
+                    <table data-toggle="table" data-pagination="true" data-side-pagination="server"
+                           id="table" data-url="/plansolve/manger/app/user/appOrderList?userOrderNo=&userOrderState=all" data-page-list="[10, 20, 50, 100]">
+                        <thead>
+                        <tr>
+                            <th data-field="idUserOrder">订单ID</th>
+                            <th data-field="userOrderNo">订单编号</th>
+                            <th data-field="userOrderState">订单状态</th>
+                            <th data-field="createByDetail">下单人</th>
+                            <th data-field="startTime">开始时间</th>
+                            <th data-field="cropName">作物名称</th>
+                            <th data-field="machineryType">所需农机</th>
+                            <th data-field="machineryNum">数量</th>
+                            <th data-field="period">周期</th>
+                            <th data-field="amountPayable">应付金额</th>
+                            <th data-field="receiveByDetail">接单人</th>
+                            <th data-field="button">相关操作</th>
+                        </tr>
+                        </thead>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div th:include="main/foot::html"></div>
+<script th:src="@{/console/js/bootstrap-table.js}"></script>
+<script>
+    !function ($) {
+        $(document).on("click", "ul.nav li.parent > a > span.icon", function () {
+            $(this).find('em:first').toggleClass("glyphicon-minus");
+        });
+        $(".sidebar span.icon").find('em:first').addClass("glyphicon-plus");
+    }(window.jQuery);
+
+    $(window).on('resize', function () {
+        if ($(window).width() > 768) $('#sidebar-collapse').collapse('show')
+    })
+    $(window).on('resize', function () {
+        if ($(window).width() <= 767) $('#sidebar-collapse').collapse('hide')
+    })
+</script>
+<script>
+    function search() {
+        var userOrderNo = $("#userOrderNo").val();
+        var userOrderState = $("#userOrderState").val();
+        var url = "/plansolve/manger/app/user/appOrderList?userOrderNo=" + userOrderNo + "&userOrderState=" + userOrderState;
+        $("#table").bootstrapTable("refresh",{url: url});
+    }
+</script>
+</body>
+</html>

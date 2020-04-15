@@ -1,0 +1,160 @@
+.userCard {
+  background-image: url(../images/user-header-bag.png);
+  background-repeat: no-repeat;
+  background-position: center center;
+  width: 100%;
+  display: block;
+  padding: 20px;
+}
+.userCard:after {
+  content: '';
+  clear: both;
+  height: 0;
+  visibility: hidden;
+  display: block;
+}
+.userCard > .left {
+  float: left;
+  border: 2px solid #ffffff;
+  width: 100px;
+  height: 100px;
+  -webkit-border-radius: 100%;
+  -moz-border-radius: 100%;
+  border-radius: 100%;
+}
+.userCard > .left > img {
+  width: 100%;
+}
+.userCard .center {
+  float: left;
+  margin-left: 20px;
+}
+.userCard .center > .name {
+  color: #ffffff;
+  font-size: 18px;
+  margin-bottom: 10px;
+  margin-top: 20px;
+}
+.userCard .center > .tell {
+  color: #ffffff;
+  font-size: 18px;
+}
+.userCard .right {
+  float: right;
+  color: #ffffff;
+  font-size: 30px;
+  position: relative;
+  top: 25px;
+}
+.linkGroup:after {
+  content: '';
+  clear: both;
+  height: 0;
+  visibility: hidden;
+  display: block;
+}
+.linkGroup > .item {
+  float: left;
+}
+.linkGroup.linkGroup-userInfo {
+  background-color: #fff;
+  padding-left: 15px;
+}
+.linkGroup.linkGroup-userInfo > .item {
+  padding-right: 15px;
+  display: block;
+  width: 100%;
+  padding-top: 10px;
+  padding-bottom: 10px;
+}
+.linkGroup.linkGroup-userInfo > .item:after {
+  content: '';
+  clear: both;
+  height: 0;
+  visibility: hidden;
+  display: block;
+}
+.linkGroup.linkGroup-userInfo > .item > .left {
+  float: left;
+}
+.linkGroup.linkGroup-userInfo > .item > .left > .icon {
+  width: 35px;
+  height: 35px;
+  margin-right: 10px;
+}
+.linkGroup.linkGroup-userInfo > .item > .left > .icon > img {
+  width: 100%;
+  vertical-align: middle;
+}
+.linkGroup.linkGroup-userInfo > .item > .left .userName {
+  font-size: 15px;
+}
+.linkGroup.linkGroup-userInfo > .item .right {
+  float: right;
+  position: relative;
+  top: 10px;
+  font-size: 20px;
+}
+.linkGroup.linkGroup-userInfo > .item + .item {
+  border-top: 1px solid #efefef;
+}
+.notice_pd {
+  margin-top: 15px;
+  padding: 0 15px;
+}
+.notice_pd > .item {
+  border-bottom: 0;
+}
+.notice_pd > .item + .item {
+  border-top: 1px solid #efefef;
+}
+.submit {
+  background-color: #fff;
+  padding: 20px 40px 30px 40px;
+}
+.points {
+  background-color: #fff;
+  text-align: center;
+  padding: 30px 0;
+  margin-top: 10px;
+}
+.points .my .redNum {
+  color: red;
+  font-size: 56px;
+  line-height: 50px;
+}
+.points .my .redName {
+  color: red;
+  font-size: 20px;
+  margin-bottom: 50px;
+}
+.list.list-point {
+  background-color: #f5f5f5;
+}
+.list.list-point > .item {
+  position: relative;
+  padding: 10px 45px 10px 0;
+  border-bottom: 1px solid #d6d6d6;
+}
+.list.list-point > .item + .item {
+  border-top: none;
+}
+.list.list-point > .item .body > .title {
+  font-size: 16px;
+}
+.list.list-point > .item .body .content {
+  font-size: 15px;
+}
+.list.list-point > .item .footer {
+  font-size: 16px;
+}
+.success {
+  text-align: center;
+  margin-top: 70px;
+}
+.footerBtn {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+}

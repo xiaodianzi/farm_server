@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+    <title>实时粮价</title>
+    <link rel="stylesheet" th:href="@{/applet/css/common.css}">
+    <style>
+        .container {
+            display: flex;
+            flex-direction: column;
+            background-color: #FFFFFF;
+            padding: 20px;
+        }
+        header {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        p {
+            padding-top: 20px;
+            font-size: 16px;
+        }
+        .point {
+            color: red;
+        }
+    </style>
+</head>
+
+<!--注意此处body有背景色的class-->
+<body>
+<div class="container">
+    <header>
+        <h1 th:text="${massage.title}"></h1>
+        <font color="#9E9E9E"><span th:text="${massage.releaseTime}"/> <span th:text="${massage.source}"/></font>
+    </header>
+    <div th:utext="${massage.detail}"></div>
+</div>
+
+</body>
+<script src="//cdn.bootcss.com/jquery/1.11.1/jquery.min.js"></script>
+<script th:src="@{/applet/js/touch.js}"></script>
+</html>

@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html style="width: 100%;height: 100%;" lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+    <title>农小满数据统计分析</title>
+    <link th:href="@{/console/css/bootstrap.css}" rel="stylesheet">
+    <style>
+        .em_font{
+            font-style: normal;
+        }
+    </style>
+    <div th:include="main/head::html"></div>
+</head>
+<body style="height: 100%;width: 100%;margin: -2.5% 0 0 2.2%;">
+<!--<div th:include="main/title::html"></div>-->
+<div style="height: 100%;width: 100%;" class="col-sm-12 col-lg-12 main">
+    <div class="row" style="margin-left: -3%;">
+        <ol class="breadcrumb">
+            <li><a href="/plansolve/home"><span class="glyphicon glyphicon-home"></span></a></li>
+            <li class="active">统计分析</li>
+            <li class="active">数据平台</li>
+        </ol>
+    </div>
+    <div class="row">
+        <div class="col-lg-12" style="text-align: center;">
+            <h3 class="page-header" style="color: #000000;font-weight: normal;margin: 10px 0 0 0;">农小满数据信息采集中心</h3>
+            <h6 class="page-header" style="color: #716f6c;font-weight: normal;margin-top: 0px;">北京托管之家科技有限公司提供数据支持</h6>
+        </div>
+    </div>
+    <div class="row" style="height: 100%;width: 100%;">
+        <!-- 为 ECharts 准备一个具备大小（宽高）的 DOM -->
+        <div id="container" class="col-lg-12"
+             style="height: 60%;width: 60%;margin-left: -1%;background-color: #FEF8EF;"></div>
+        <div style="height: 60%;width: 40%;float: left;margin-left: -0.5%;">
+            <div id="crops_pie"
+                 style="width: 100%;height: 49.8%;background-color: #FEF8EF;"></div>
+            <div id="machinery_pie" style="width: 100%;height: 49.8%;background-color: #FEF8EF;margin-top: 0.4%;"></div>
+        </div>
+        <div id="user_line" class="col-lg-12"
+             style="width: 59.5%;height: 39.5%;margin-left: -1%;background-color: #FEF8EF;margin-top: 0.2%;"></div>
+        <div style="width: 39.5%;height: 39.5%;margin-left: 0.1%;background-color: #FEF8EF;margin-top: 0.2%;float: left;">
+            <h4 style="text-align: left;font-weight: bold;margin: 1% 0 0 23%;">订单统计要素选择列表</h4>
+            <div style="width: 35%;height: 39.5%;margin:2% 0 0 0.1%;text-align: center;float: left;">
+                <em class="em_font" th:text="请选择要统计的农作物类型"></em>&nbsp;
+                <select class="option_select" th:name="crop" th:id="_crop"
+                        style="background-color: #3c3f41;color: #a9a957;">
+                    <option th:value="0" th:text="----请点击选择----" selected="selected"></option>
+                    <option th:value="rice_timeline" th:text="水稻"></option>
+                    <option th:value="wheat_timeline" th:text="小麦"></option>
+                    <option th:value="corn_timeline" th:text="玉米"></option>
+                    <option th:value="soybean_timeline" th:text="黄豆"></option>
+                    <option th:value="mungbean_timeline" th:text="绿豆"></option>
+                    <option th:value="potato_timeline" th:text="土豆"></option>
+                    <option th:value="sorghum_timeline" th:text="高粱"></option>
+                </select>
+            </div>
+            <div style="width: 35%;height: 39.5%;margin:2% 0 0 0.1%;text-align: center;float: left;">
+                <em class="em_font" th:text="请选择要统计的农机类型"></em>&nbsp;
+                <select class="option_select" th:name="machinery" th:id="_machinery"
+                        style="background-color: #3c3f41;color: #a9a957;">
+                    <option th:value="0" th:text="----请点击选择----" selected="selected"></option>
+                    <option th:value="plough_timeline" th:text="耕整地机"></option>
+                    <option th:value="seed_timeline" th:text="播种"></option>
+                    <option th:value="fertilization_timeline" th:text="施肥"></option>
+                    <option th:value="protection_timeline" th:text="植保"></option>
+                    <option th:value="harvest_timeline" th:text="收获"></option>
+                </select>
+            </div>
+            <div style="width: 35%;height: 39.5%;margin:1% 0 0 0.1%;text-align: center;float: left;">
+                <em class="em_font" th:text="请选择要统计的作业类型"></em>&nbsp;
+                <select class="option_select" th:name="workmode" th:id="_workmode"
+                        style="background-color: #3c3f41;color: #a9a957;">
+                    <option th:value="0" th:text="----请点击选择----" selected="selected"></option>
+                    <option th:value="independent_work" th:text="独立作业"></option>
+                    <option th:value="collaborative_work" th:text="协同作业"></option>
+                </select>
+            </div>
+            <div style="width: 35%;height: 39.5%;margin:1% 0 0 0.1%;text-align: center;float: left;">
+                <em class="em_font" th:text="请选择要统计的订单状态"></em>&nbsp;
+                <select class="option_select" th:name="orderstate" th:id="_orderstate"
+                        style="background-color: #3c3f41;color: #a9a957;">
+                    <option th:value="0" th:text="----请点击选择----" selected="selected"></option>
+                    <option th:value="waiting_order" th:text="待接单"></option>
+                    <option th:value="confirming_order" th:text="待确认"></option>
+                    <option th:value="working_order" th:text="作业中"></option>
+                    <option th:value="payed_order" th:text="已支付"></option>
+                    <option th:value="finish_order" th:text="已完成"></option>
+                    <option th:value="overdue_order" th:text="已过期"></option>
+                </select>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+<script th:src="@{/console/js/jquery-1.11.1.min.js}"></script>
+<script type="text/javascript" src="https://echarts.baidu.com/gallery/vendors/echarts/echarts.min.js"></script>
+<script type="text/javascript" src="https://echarts.baidu.com/gallery/vendors/echarts-gl/echarts-gl.min.js"></script>
+<script type="text/javascript" src="https://echarts.baidu.com/gallery/vendors/echarts-stat/ecStat.min.js"></script>
+<script type="text/javascript"
+        src="https://echarts.baidu.com/gallery/vendors/echarts/extension/dataTool.min.js"></script>
+<script type="text/javascript" src="https://echarts.baidu.com/gallery/vendors/echarts/map/js/china.js"></script>
+<script type="text/javascript"
+        src="https://api.map.baidu.com/api?v=2.0&ak=0gBQYcchuRfcdqvsFLGG5hs2b4VQkW02&__ec_v__=20190126"></script>
+<script type="text/javascript" src="https://echarts.baidu.com/gallery/vendors/echarts/extension/bmap.min.js"></script>
+<script type="text/javascript" src="https://echarts.baidu.com/gallery/vendors/simplex.js"></script>
+<script th:src="@{/console/js/echarts-map.js}"></script>
+<!-- 引入 vintage 主题 -->
+<script th:src="@{/console/js/vintage.js}"></script>
+</html>

@@ -1,0 +1,197 @@
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<!------------------------------------------------------------------------------top title------------------------------------------------------------------------------>
+<nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+    <div class="container-fluid">
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle collapsed"
+                    data-toggle="collapse" data-target="#sidebar-collapse">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="https://www.pgyer.com/YVxI"><span>托管之家</span>管理员</a>
+            <ul class="user-menu">
+                <li class="dropdown pull-right">
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown"><span
+                            class="glyphicon glyphicon-user"></span> 高一平 <span class="caret"></span></a>
+                    <ul class="dropdown-menu" role="menu">
+                        <li><a href="#"><span class="glyphicon glyphicon-user"></span> Profile</a></li>
+                        <li><a href="#"><span class="glyphicon glyphicon-cog"></span> 设置</a></li>
+                        <li><a href="#"><span class="glyphicon glyphicon-log-out"></span> 退出</a></li>
+                    </ul>
+                </li>
+            </ul>
+        </div>
+    </div>
+</nav>
+<!------------------------------------------------------------------------------top title------------------------------------------------------------------------------>
+<!------------------------------------------------------------------------------left title------------------------------------------------------------------------------>
+<div id="sidebar-collapse" class="col-sm-3 col-lg-2 sidebar">
+    <form role="search">
+        <div class="form-group">
+            <input type="text" class="form-control" placeholder="搜索...">
+        </div>
+    </form>
+    <ul class="nav menu">
+        <li><a href="/plansolve/home"><span class="glyphicon glyphicon-dashboard"></span> 首页</a></li>
+        <li><a href="/plansolve/manger/admin/user/adminUserPage"><span class="glyphicon glyphicon-user"></span> 管理员用户</a></li>
+        <li><a href="/plansolve/manger/system/dictPage"><span class="glyphicon glyphicon-pencil"></span> 系统设置</a></li>
+        <li><a href="/plansolve/manger/app/user/appUserPage"><span class="glyphicon glyphicon-user"></span> 客户端用户</a></li>
+        <li><a href="/plansolve/manger/app/user/message/listPage"><span class="glyphicon glyphicon-list-alt"></span> 用户短信</a></li>
+        <li class="parent" onclick="unfold(this)">
+            <a href="#">
+                <span class="glyphicon glyphicon-th"></span> 客户端交易申请
+                <span data-toggle="collapse" href="#sub-item-app-application" class="icon pull-right">
+                    <em class="glyphicon glyphicon-s glyphicon-plus"></em></span>
+            </a>
+            <ul class="children collapse" id="sub-item-app-application">
+                <li>
+                    <a class="" href="/plansolve/manger/application/listPage">
+                        <span class="glyphicon glyphicon-share-alt"></span> 全部申请 </a>
+                </li>
+                <li>
+                    <a class="" href="/plansolve/manger/application/withdraw/listPage">
+                        <span class="glyphicon glyphicon-share-alt"></span> 用户提现申请 </a>
+                </li>
+                <li>
+                    <a class="" href="/plansolve/manger/application/wxpay/listPage">
+                        <span class="glyphicon glyphicon-share-alt"></span> 微信支付申请 </a>
+                </li>
+            </ul>
+        </li>
+        <li class="parent" onclick="unfold(this)">
+            <a href="#">
+                <span class="glyphicon glyphicon-list-alt"></span> 订单相关
+                <span data-toggle="collapse" href="#sub-item-app-order" class="icon pull-right">
+                    <em class="glyphicon glyphicon-s glyphicon-plus"></em></span>
+            </a>
+            <ul class="children collapse" id="sub-item-app-order">
+                <li>
+                    <a class="" href="/plansolve/manger/app/user/appOrderPage">
+                        <span class="glyphicon glyphicon-share-alt"></span> 客户端订单 </a>
+                </li>
+                <li>
+                    <a class="" href="/plansolve/manger/app/order/bid/appBidOrderFormPage">
+                        <span class="glyphicon glyphicon-share-alt"></span> 创建预约订单 </a>
+                </li>
+            </ul>
+        </li>
+        <li class="parent" onclick="unfold(this)">
+            <a href="#">
+                <span class="glyphicon glyphicon-stats"></span>统计分析
+                <span data-toggle="collapse" href="#sub-item-app-chart" class="icon pull-right"><em class="glyphicon glyphicon-s glyphicon-plus"></em></span>
+            </a>
+            <ul class="children collapse" id="sub-item-app-chart">
+                <li>
+                    <a class="" href="/plansolve/manger/web/statistical/mapPage"><span class="glyphicon glyphicon-share-alt"></span>数据平台</a>
+                </li>
+                <li>
+                    <a class="" href="/plansolve/manger/web/orderPage/statisticalOrderPage"><span class="glyphicon glyphicon-share-alt"></span>订单信息</a>
+                </li>
+            </ul>
+        </li>
+        <li class="parent" onclick="unfold(this)">
+            <a href="#">
+                <span class="glyphicon glyphicon-stats"></span>积分管理
+                <span data-toggle="collapse" href="#sub-item-score-info" class="icon pull-right"><em class="glyphicon glyphicon-s glyphicon-plus"></em></span>
+            </a>
+            <ul class="children collapse" id="sub-item-score-info">
+                <li>
+                    <a class="" href="/plansolve/manager/app/score/scoreInfoPage"><span class="glyphicon glyphicon-share-alt"></span>积分规则</a>
+                </li>
+            </ul>
+        </li>
+        <li class="parent" onclick="unfold(this)">
+            <a href="#">
+                <span class="glyphicon glyphicon-stats"></span>财务管理
+                <span data-toggle="collapse" href="#sub-item-financial-chart" class="icon pull-right"><em class="glyphicon glyphicon-s glyphicon-plus"></em></span>
+            </a>
+            <ul class="children collapse" id="sub-item-financial-chart">
+                <li>
+                    <a class="" href="/plansolve/manager/app/account/cash/listPage"><span class="glyphicon glyphicon-share-alt"></span>资金明细</a>
+                </li>
+            </ul>
+        </li>
+        <li class="parent" onclick="unfold(this)">
+            <a href="#">
+                <span class="glyphicon glyphicon-stats"></span>优惠活动
+                <span data-toggle="collapse" href="#sub-item-activity" class="icon pull-right"><em class="glyphicon glyphicon-s glyphicon-plus"></em></span>
+            </a>
+            <ul class="children collapse" id="sub-item-activity">
+                <li>
+                    <a class="" href="/plansolve/manager/web/activity/page/index"><span class="glyphicon glyphicon-share-alt"></span>活动管理</a>
+                </li>
+                <li>
+                    <a class="" href="/plansolve/manager/web/activity/page/players"><span class="glyphicon glyphicon-share-alt"></span>报名信息</a>
+                </li>
+                <li>
+                    <a class="" href="/plansolve/manager/web/activity/page/winners"><span class="glyphicon glyphicon-share-alt"></span>中奖信息</a>
+                </li>
+            </ul>
+        </li>
+        <li class="parent" onclick="unfold(this)">
+            <a href="#">
+                <span class="glyphicon glyphicon-stats"></span>农学院
+                <span data-toggle="collapse" href="#sub-item-financial-agricultural" class="icon pull-right"><em class="glyphicon glyphicon-s glyphicon-plus"></em></span>
+            </a>
+            <ul class="children collapse" id="sub-item-financial-agricultural">
+                <li>
+                    <a class="" href="/plansolve/manager/web/grainmarket/indexpage"><span class="glyphicon glyphicon-share-alt"></span>粮食市场</a>
+                </li>
+                <li>
+                    <a class="" href="/plansolve/manger/school/news/newsList"><span class="glyphicon glyphicon-share-alt"></span>农学院消息</a>
+                </li>
+                <li>
+                    <a class="" href="/plansolve/manager/cereals/realTimePrice/typePage"><span class="glyphicon glyphicon-share-alt"></span>实时粮价</a>
+                </li>
+            </ul>
+        </li>
+        <li class="parent" onclick="unfold(this)">
+            <a href="#">
+                <span class="glyphicon glyphicon-info-sign"></span>相关日志
+                <span data-toggle="collapse" href="#sub-item-app-log" class="icon pull-right"><em class="glyphicon glyphicon-s glyphicon-plus"></em></span>
+            </a>
+            <ul class="children collapse" id="sub-item-app-log">
+                <li>
+                    <a class="" href="#"><span class="glyphicon glyphicon-share-alt"></span> 日志一 </a>
+                </li>
+            </ul>
+        </li>
+        <li class="parent" onclick="unfold(this)">
+            <a href="#">
+                <span class="glyphicon glyphicon-th"></span>合作社
+                <span data-toggle="collapse" href="#sub-item-app-cooperation" class="icon pull-right"><em class="glyphicon glyphicon-s glyphicon-plus"></em></span>
+            </a>
+            <ul class="children collapse" id="sub-item-app-cooperation">
+                <li>
+                    <a href="/plansolve/manger/cooperation/informationPage"><span class="glyphicon glyphicon-info-sign"></span> 合作社信息</a>
+                </li>
+                <li>
+                    <a href="/plansolve/manger/cooperation/membersPage"><span class="glyphicon glyphicon-list-alt"></span> 成员信息</a>
+                </li>
+            </ul>
+        </li>
+        <li role="presentation" class="divider"></li>
+        <li><a href="#"><span class="glyphicon glyphicon-calendar"></span> 控制台用户操作日志</a></li>
+    </ul>
+</div>
+<div class="attribution" style="position: fixed;bottom: 10px;text-align: center;">托管之家管理员控制中心</div>
+<!------------------------------------------------------------------------------left title------------------------------------------------------------------------------>
+<script th:src="@{/console/js/jquery-1.11.1.min.js}"></script>
+<script>
+    var url = window.location.pathname;
+    $("a[href = '" + url + "']").parents("li").addClass("active");
+    $("a[href = '" + url + "']").parents("ul").addClass("in");
+</script>
+<script>
+    function unfold(obj) {
+        /*var ulObj = $(obj).find("ul");
+        if (ulObj.attr("class") == "children collapse") {
+            $(obj).find("ul").addClass("in");
+        } else {
+            $(obj).find("ul").removeClass("in");
+        }*/
+    }
+</script>
+</html>

@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+    <title>订单统计分析</title>
+    <link th:href="@{/console/css/bootstrap.css}" rel="stylesheet">
+    <link th:href="@{/console/css/bootstrap-table.css}" rel="stylesheet">
+    <link th:href="@{/console/css/daterangepicker.css}" rel="stylesheet">
+    <link th:href="@{/console/icon/iconfont.css}" rel="stylesheet">
+    <style>
+        .select-list div {
+            display: block;
+            padding: 6px 14px;
+            font-size: 14px;
+            background: #30a5ff;
+            color: #ffffff;
+            border-radius: 5px;
+            text-align: center;
+            width: 18%;
+        }
+
+        .em_font {
+            font-style: normal;
+        }
+
+        .em {
+            float: left;
+        }
+
+        .option_select {
+            background: #30a5ff;
+            color: white;
+            border: none;
+        }
+    </style>
+    <div th:include="main/head::html"></div>
+</head>
+<body>
+<div th:include="main/title::html"></div>
+<div class="col-sm-9 col-sm-offset-3 col-lg-10 col-lg-offset-2 main">
+    <div class="row">
+        <ol class="breadcrumb">
+            <li><a href="/plansolve/home"><span class="glyphicon glyphicon-home"></span></a></li>
+            <li class="active">统计分析</li>
+            <li class="active">订单信息</li>
+        </ol>
+    </div>
+    <div class="row">
+        <div class="col-lg-12">
+            <h1 class="page-header">订单信息统计</h1>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="bjui-pageContent">
+                <div class="form-group d_t_dater">
+                    <div class="input-group" style="float: left;" th:id="_dates">
+                        <button type="button" class="btn btn-default" id="daterange-btn"
+                                style="background-color: #3c3f41;color: #a9a957;">
+                                                <span>
+                                                  <i class="icon iconfont icon-calendar1"></i> 请选择统计周期
+                                                </span>
+                            <i class="icon iconfont icon-danxian-youjiantou-copy"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+            <div class="select-list con"
+                 style="height:38px; background-color: #F1F4F7;margin: 16px 0 30px 50px;text-align: center;">
+                <div class="em" th:if="${begainDate ne null}"
+                     style="border-left: 1px solid #ffffff; margin-left: 22%; width: inherit;background-color: #3c3f41;color: #a9a957;">
+                    <em class="em_font" th:text="起止时间"></em>&#58;&nbsp;
+                    <em class="em_font" th:text="${begainDate}"></em>
+                    <em class="em_font" th:if="${begainDate ne null}" th:text="至"></em>
+                    <em class="em_font" th:if="${endDate ne null}" th:text="${endDate}"></em>
+                    <em class="em_font" th:if="${endDate eq null}" th:text="${begainDate}"></em>
+                </div>
+                <div class="em" th:if="${showChat eq true}"
+                     style="border-left: 1px solid #ffffff; margin: -1.8% 0 0 78%; width: inherit;background-color: #3c3f41;color: #a9a957;">
+                    <em class="em_font" th:text="图表样式"></em>&#58;&nbsp;
+                    <select class="option_select" th:id="chat_toggle"
+                            style="background-color: #3c3f41;color: #a9a957;">
+                        <option th:value="0" th:text="柱状图" selected="selected"></option>
+                        <option th:value="1" th:text="饼状图"></option>
+                        <option th:value="2" th:text="折线图"></option>
+                    </select>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 为 ECharts 准备一个具备大小（宽高）的 DOM -->
+    <div style="width: 100%;">
+        <div th:if="${cropsOrders ne null}" style="float: left;width: 49%;">
+            <input type="hidden" th:value="${cropsOrders}" th:name="cropsOrders" th:id="_cropsOrders"/>
+            <div id="crops_bar"
+                 style="width: 99%;height: 380px;background-color: white;margin-right: 2%;display: block;"></div>
+            <div id="crops_pie"
+                 style="width: 99%;height: 380px;background-color: white;margin-right: 2%;display: none;"></div>
+            <div id="crops_line"
+                 style="width: 99%;height: 380px;background-color: white;margin-right: 2%;display: none;"></div>
+        </div>
+        <div th:if="${cropsOrders eq null}" style="float: left;width: 49%;">
+            <div id="crops_order"
+                 style="width: 99%;height: 380px;background-color: white;text-align: center;font-weight: bolder;font-size: larger;padding-top: 190px;"
+                 th:text="没有可供统计的农作物分类订单"></div>
+        </div>
+        <div th:if="${machineryOrders ne null}" style="float: left;width:49%;">
+            <input type="hidden" th:value="${machineryOrders}" th:name="machineryOrders" th:id="_machineryOrders"/>
+            <div id="machinery_bar" style="width: 99%;height: 380px;background-color: white;display: block;"></div>
+            <div id="machinery_pie" style="width: 99%;height: 380px;background-color: white;display: none;"></div>
+            <div id="machinery_line" style="width: 99%;height: 380px;background-color: white;display: none;"></div>
+        </div>
+        <div th:if="${machineryOrders eq null}" style="float: left;width: 49%;">
+            <div id="machinery_order"
+                 style="width: 99%;height: 380px;background-color: white;text-align: center;font-weight: bolder;font-size: larger;padding-top: 190px;"
+                 th:text="没有可供统计的农机分类订单"></div>
+        </div>
+    </div>
+</div>
+</body>
+<script th:src="@{/console/js/jquery-1.11.1.min.js}"></script>
+<script th:src="@{/console/js/bootstrap.js}"></script>
+<script th:src="@{/console/js/echarts.common.min.js}"></script>
+<script th:src="@{/console/js/moment.js}"></script>
+<script th:src="@{/console/js/daterangepicker.js}"></script>
+<script th:src="@{/console/js/statistical-chat.js}"></script>
+<!--<script type='text/javascript'>
+    (function(m, ei, q, i, a, j, s) {
+        m[i] = m[i] || function() {
+            (m[i].a = m[i].a || []).push(arguments)
+        };
+        j = ei.createElement(q),
+            s = ei.getElementsByTagName(q)[0];
+        j.async = true;
+        j.charset = 'UTF-8';
+        j.src = 'https://static.meiqia.com/dist/meiqia.js?_=t';
+        s.parentNode.insertBefore(j, s);
+    })(window, document, 'script', '_MEIQIA');
+    _MEIQIA('entId', 142012);
+    // _MEIQIA('withoutBtn');
+    // _MEIQIA('init');
+</script>-->
+</html>

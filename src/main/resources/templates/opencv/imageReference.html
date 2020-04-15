@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>匹配推荐</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+</head>
+<body>
+    <div style="text-align: center;"><h2>智能匹配推荐结果</h2></div>
+    <div th:if="${diseaseNames ne null}" style="text-align: center;">
+        <div th:each="diseaseName : ${diseaseNames}">
+            <font th:text="${diseaseName}"></font>
+        </div>
+    </div>
+    <div th:if="${diseaseNames eq null}" style="text-align: center;">
+        <font th:text="图片不匹配-请更换角度后重现拍摄"></font>
+    </div>
+</body>
+</html>

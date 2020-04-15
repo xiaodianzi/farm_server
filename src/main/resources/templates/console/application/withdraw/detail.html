@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <div th:include="main/head::html"></div>
+    <link th:href="@{/console/css/bootstrap-table.css}" rel="stylesheet">
+</head>
+<body>
+<div th:include="main/title::html"></div>
+<div class="col-sm-9 col-sm-offset-3 col-lg-10 col-lg-offset-2 main">
+    <div class="row">
+        <ol class="breadcrumb">
+            <li><a href="/plansolve/home"><span class="glyphicon glyphicon-home"></span></a></li>
+            <li><a href="/plansolve/manger/application/listPage">交易申请</a></li>
+            <li><a href="/plansolve/manger/application/withdraw/listPage">用户提现申请列表</a></li>
+            <li class="active">申请详情</li>
+        </ol>
+    </div>
+    <div class="row">
+        <div class="col-lg-12">
+            <h1 class="page-header">申请详情</h1>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-12">
+            <div class="panel panel-default">
+                <div class="panel-heading"><span class="glyphicon glyphicon-envelope"></span>主申请</div>
+                <div class="panel-body">
+                    <div th:if="${transactionApplication ne null}">
+                        <form action="/plansolve/manger/application/withdraw/recheck" method="post"
+                              th:id="_recheck_form">
+                            <input th:type="hidden" th:name="idTransactionApplication" th:id="_idTransactionApplication"
+                                   th:value="${transactionApplication.idTransactionApplication}">
+                            <input th:type="hidden" th:name="result" th:id="_result">
+                            <input th:type="hidden" th:name="detail" th:id="_detail">
+                            <div class="col-md-6">
+                                <div class="col-md-12">
+                                    <label class="col-md-5 control-label">申请编号：</label>
+                                    <font class="col-md-7 control-label"
+                                          th:text="${transactionApplication.transactionApplicationNo}"></font>
+                                </div>
+                                <div class="col-md-12">
+                                    <label class="col-md-5 control-label">申请金额：</label>
+                                    <font class="col-md-7 control-label"
+                                          th:text="${transactionApplication.money}"></font>
+                                </div>
+                                <div class="col-md-12">
+                                    <label class="col-md-5 control-label">申请进度：</label>
+                                    <font class="col-md-7 control-label"
+                                          th:text="${transactionApplication.applicationState}"></font>
+                                </div>
+                                <div class="col-md-12">
+                                    <label class="col-md-5 control-label">申请时间：</label>
+                                    <font class="col-md-7 control-label"
+                                          th:text="${transactionApplication.applicationCreateTime}"></font>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="col-md-12">
+                                    <label class="col-md-5 control-label">申请人：</label>
+                                    <font class="col-md-7 control-label"
+                                          th:text="${transactionApplication.username}"></font>
+                                </div>
+                                <div class="col-md-12">
+                                    <label class="col-md-5 control-label">联系方式：</label>
+                                    <font class="col-md-7 control-label"
+                                          th:text="${transactionApplication.mobile}"></font>
+                                </div>
+                                <div class="col-md-12">
+                                    <label class="col-md-5 control-label">开户行：</label>
+                                    <font class="col-md-7 control-label"
+                                          th:text="${transactionApplication.bankInfo}"></font>
+                                </div>
+                                <div class="col-md-12">
+                                    <label class="col-md-5 control-label">银行卡号：</label>
+                                    <font class="col-md-7 control-label"
+                                          th:text="${transactionApplication.bankCardNo}"></font>
+                                </div>
+                            </div>
+                            <!--<div class="col-md-12">
+                                <div class="col-md-2" style="padding-left: 2%;color: #30a5ff;">
+                                    <label class="control-label">复核意见：</label>
+                                </div>
+                                <div class="col-md-9" style="float: left; padding-left: 5%;">
+                                    <input th:type="text" placeholder="请输入提现复核审批意见" style="outline: none;border: 0px;width: 100%;">
+                                </div>
+                            </div>-->
+                            <div th:if="${transactionApplication.applicationState eq '初审通过'}" class="col-md-12"
+                                 style="text-align: center;">
+                                <div style="width: 100%;height: 0.05rem;border: 0.05rem solid #E9ECF2;margin-top: 10px;"></div>
+                                <div style="margin-top: 10px;">
+                                    <button th:id="agreeBtn" class="btn btn-primary" style="margin-right: 50px;">同 意
+                                    </button>
+                                    <button th:id="refusedBtn" class="btn btn-default">拒 绝</button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+
+            <div class="panel panel-default chat">
+                <div class="panel-heading" id="accordion"><span class="glyphicon glyphicon-comment"></span>申请详情</div>
+
+                <div class="panel-body">
+                    <ul>
+                        <li class="left clearfix" th:each="applicationDetail : ${applicationDetails}">
+                            <div class="chat-body clearfix">
+                                <div class="header">
+                                    <font class="primary-font" th:text="${applicationDetail.adminName}"></font>&nbsp;&nbsp;
+                                    <font class="primary-font"
+                                          th:text="${applicationDetail.applicationType}"></font>&nbsp;&nbsp;
+                                    <small class="text-muted"
+                                           th:text="${applicationDetail.applicationTime}"></small>
+                                </div>
+                                <p>
+                                    [审核金额：<font class="primary-font"
+                                                th:text="${applicationDetail.applicationMoney}"></font>元]&nbsp;&nbsp;
+                                    <font th:if="${applicationDetail.applicationResult eq true}"
+                                           class="primary-font" th:text="[同意]"></font>
+                                    <font th:if="${applicationDetail.applicationResult eq false}"
+                                          class="primary-font" th:text="[拒绝]"></font>&nbsp;&nbsp;
+                                    <font class="primary-font"
+                                          th:text="${applicationDetail.applicationDetail}"></font>
+                                </p>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div th:include="main/foot::html"></div>
+<script>
+    $('#calendar').datepicker({});
+
+    !function ($) {
+        $(document).on("click", "ul.nav li.parent > a > span.icon", function () {
+            $(this).find('em:first').toggleClass("glyphicon-minus");
+        });
+        $(".sidebar span.icon").find('em:first').addClass("glyphicon-plus");
+    }(window.jQuery);
+
+    $(window).on('resize', function () {
+        if ($(window).width() > 768) $('#sidebar-collapse').collapse('show')
+    });
+    $(window).on('resize', function () {
+        if ($(window).width() <= 767) $('#sidebar-collapse').collapse('hide')
+    });
+    //同意按钮点击事件
+    $('#agreeBtn').click(function () {
+        var idTransactionApplication = $('#_idTransactionApplication').val();
+        $('#_result').val('true');
+        $('#_detail').val('提现复核审批通过');
+        if (idTransactionApplication != null && idTransactionApplication != "" && idTransactionApplication != undefined) {
+            console.log("提现复核审批验证通过");
+            document.getElementById('_recheck_form').submit(); //赋值成功进行表单提交
+        } else {
+            console.log("提现复核审批id不能为空");
+            return;
+        }
+    });
+    //拒绝按钮点击事件
+    $('#refusedBtn').click(function () {
+        var idTransactionApplication = $('#_idTransactionApplication').val();
+        $('#_result').val('false');
+        $('#_detail').val('提现复核审批拒绝');
+        if (idTransactionApplication != null && idTransactionApplication != "" && idTransactionApplication != undefined) {
+            console.log("提现复核审批验证通过");
+            document.getElementById('_recheck_form').submit(); //赋值成功进行表单提交
+        } else {
+            console.log("提现复核审批id不能为空");
+            return;
+        }
+    });
+</script>
+</body>
+</html>

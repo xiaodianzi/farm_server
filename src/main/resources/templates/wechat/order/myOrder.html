@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+    <title>我的订单</title>
+	<link rel="stylesheet" th:href="@{/wechat/css/style.css}">
+</head>
+
+<!--注意此处body有背景色的class-->
+<body class="bg-white">
+
+<div class="tab">
+    <div class="tab-header" data-cmd="switchTab">
+        <a href="javascript:;" class="item active">种植户</a>
+        <a href="javascript:;" class="item">农机手</a>
+    </div>
+    <div class="tab-body">
+        <div class="item active">
+			<div th:each="order : ${orderWithFarmer}">
+				<div class="panel panel-order" th:onclick="'goto_farmer(' + ${order.userOrderNo} + ')'">
+					<div class="panel-header">
+						<div class="left">订单编号：<span th:text="${order.userOrderNo}"/></div>
+						<div class="right"><span th:text="${#dates.format(order.createTime, 'yyyy-MM-dd')}"/></div>
+					</div>
+					<div class="panel-body">
+						<div align="center">
+							<span style="width: 20%;" th:switch="${order.cropName}">
+								<img height="60px" th:case="水稻" th:src="@{/wechat/images/icon-plant/indent_icon_rice.png}"/>
+								<img height="60px" th:case="小麦" th:src="@{/wechat/images/icon-plant/indent_icon_rice.png}"/>
+								<img height="60px" th:case="玉米" th:src="@{/wechat/images/icon-plant/indent_icon_corn.png}"/>
+								<img height="60px" th:case="黄豆" th:src="@{/wechat/images/icon-plant/indent_icon_bean.png}"/>
+								<img height="60px" th:case="绿豆" th:src="@{/wechat/images/icon-plant/indent_icon_bean.png}"/>
+								<img height="60px" th:case="土豆" th:src="@{/wechat/images/icon-plant/indent_icon_potato.png}"/>
+								<img height="60px" th:case="高粱" th:src="@{/wechat/images/icon-plant/indent_icon_rice.png}"/>
+							</span>
+							<span style="width: 25%;">
+								<span>￥<span th:text="${order.price}"/>/亩</span><br>
+								<span><span th:text="${order.arce}"/>亩</span>
+							</span>
+							<span style="width: 35%;">
+								<span><span th:text="${order.machineryType}"/></span><br>
+								<span><span th:text="${#dates.format(order.startTime, 'yyyy-MM-dd')}"/></span>
+							</span>
+							<span style="width: 10%;">
+								<span><span th:text="${order.machineryNum}"/>台</span><br>
+								<span><span th:text="${order.period}"/>天</span>
+							</span>
+						</div>
+					</div>
+					<div class="panel-footer">
+						<span th:text="${order.farmlandDTO.address.province}"/>
+						<span th:text="${order.farmlandDTO.address.city}"/>
+						<span th:text="${order.farmlandDTO.address.county}"/>
+						<span th:text="${order.farmlandDTO.address.town}"/>
+						<span th:text="${order.farmlandDTO.address.detail}"/>
+						<span style="float: right;"><font size="3" color="red" th:switch="${order.userOrderState}">
+							<span th:case="waiting" th:text="待接单"/>
+							<span th:case="confirming" th:text="待确认"/>
+							<span th:case="working" th:text="待作业"/>
+							<span th:case="checking" th:text="待验收"/>
+							<span th:case="finished" th:text="已完成"/>
+							<span th:case="canceled" th:text="已取消"/>
+						</font></span>
+					</div>
+				</div>
+			</div>
+        </div>
+        <div class="item">
+			<div th:each="order : ${orderWithOperator}">
+                <div class="panel panel-order" th:onclick="'goto_operator(' + ${order.userOrderNo} + ')'">
+                    <div class="panel-header">
+                        <div class="left">订单编号：<span th:text="${order.userOrderNo}"/></div>
+                        <div class="right"><span th:text="${#dates.format(order.createTime, 'yyyy-MM-dd')}"/></div>
+                    </div>
+                    <div class="panel-body">
+                        <div align="center">
+                            <span style="width: 20%;" th:switch="${order.cropName}">
+                                <img height="60px" th:case="水稻" th:src="@{/wechat/images/icon-plant/indent_icon_rice.png}"/>
+                                <img height="60px" th:case="小麦" th:src="@{/wechat/images/icon-plant/indent_icon_rice.png}"/>
+                                <img height="60px" th:case="玉米" th:src="@{/wechat/images/icon-plant/indent_icon_corn.png}"/>
+                                <img height="60px" th:case="黄豆" th:src="@{/wechat/images/icon-plant/indent_icon_bean.png}"/>
+                                <img height="60px" th:case="绿豆" th:src="@{/wechat/images/icon-plant/indent_icon_bean.png}"/>
+                                <img height="60px" th:case="土豆" th:src="@{/wechat/images/icon-plant/indent_icon_potato.png}"/>
+                                <img height="60px" th:case="高粱" th:src="@{/wechat/images/icon-plant/indent_icon_rice.png}"/>
+                            </span>
+                            <span style="width: 25%;">
+                                <span>￥<span th:text="${order.price}"/>/亩</span><br>
+                                <span><span th:text="${order.arce}"/>亩</span>
+                            </span>
+                            <span style="width: 35%;">
+                                <span><span th:text="${order.machineryType}"/></span><br>
+                                <span><span th:text="${#dates.format(order.startTime, 'yyyy-MM-dd')}"/></span>
+                            </span>
+                            <span style="width: 10%;">
+                                <span><span th:text="${order.machineryNum}"/>台</span><br>
+                                <span><span th:text="${order.period}"/>天</span>
+                            </span>
+                        </div>
+                    </div>
+                    <div class="panel-footer">
+                        <span th:text="${order.farmlandDTO.address.province}"/>
+                        <span th:text="${order.farmlandDTO.address.city}"/>
+                        <span th:text="${order.farmlandDTO.address.county}"/>
+                        <span th:text="${order.farmlandDTO.address.town}"/>
+                        <span th:text="${order.farmlandDTO.address.detail}"/>
+                        <span style="float: right;"><font size="3" color="red" th:switch="${order.userOrderState}">
+                            <span th:case="waiting" th:text="待接单"/>
+                            <span th:case="confirming" th:text="待确认"/>
+                            <span th:case="working" th:text="待作业"/>
+                            <span th:case="checking" th:text="待验收"/>
+                            <span th:case="finished" th:text="已完成"/>
+                            <span th:case="canceled" th:text="已取消"/>
+                        </font></span>
+                    </div>
+                </div>
+			</div>
+        </div>
+    </div>
+</div>
+
+<div class="footerNav">
+	<a href="home" class="item active" style="width: 24%;">
+		<img th:if="${pageType eq 'main'}" height="50px" th:src="@{/wechat/images/icon-home/icon_main_select.png}"/>
+		<img th:if="${pageType ne 'main'}" height="50px" th:src="@{/wechat/images/icon-home/icon_main.png}"/>
+	</a>
+	<a href="indent" class="item" style="width: 24%;">
+		<img th:if="${pageType eq 'indent'}" height="50px" th:src="@{/wechat/images/icon-home/icon_indent_select.png}"/>
+		<img th:if="${pageType ne 'indent'}" height="50px" th:src="@{/wechat/images/icon-home/icon_indent.png}"/>
+	</a>
+	<a href="manager" class="item" style="width: 24%;">
+		<img th:if="${pageType eq 'manage'}" height="50px" th:src="@{/wechat/images/icon-home/icon_manage_select.png}">
+		<img th:if="${pageType ne 'manage'}" height="50px" th:src="@{/wechat/images/icon-home/icon_manage.png}">
+	</a>
+	<a href="mine" class="item" style="width: 24%;">
+		<img th:if="${pageType eq 'mine'}" height="50px" th:src="@{/wechat/images/icon-home/icon_mine_select.png}"/>
+		<img th:if="${pageType ne 'mine'}" height="50px" th:src="@{/wechat/images/icon-home/icon_mine.png}"/>
+	</a>
+</div>
+
+<script src="http://cdn.bootcss.com/jquery/1.11.1/jquery.min.js"></script>
+<script th:src="@{/wechat/js/touch.js}"></script>
+<script th:src="@{/wechat/js/main.js}"></script>
+<script>
+    /**
+     * 跳转详情页
+     * @param orderNo
+     */
+    function goto_farmer(orderNo) {
+        var hrefPath = "farmerOrderDetail?orderNo=" + orderNo;
+        location.href = hrefPath;
+    }
+    function goto_operator(orderNo) {
+        var hrefPath = "operatorOrderDetail?orderNo=" + orderNo;
+        location.href = hrefPath;
+    }
+</script>
+</body>
+</html>

@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <div th:include="main/head::html"></div>
+    <link th:href="@{/console/css/bootstrap-table.css}" rel="stylesheet">
+</head>
+<body>
+<div th:include="main/title::html"></div>
+<div class="col-sm-9 col-sm-offset-3 col-lg-10 col-lg-offset-2 main">
+    <div class="row">
+        <ol class="breadcrumb">
+            <li><a href="/plansolve/home"><span class="glyphicon glyphicon-home"></span></a></li>
+            <li>交易申请</li>
+            <li class="active">客用户微信支付申请</li>
+        </ol>
+    </div>
+    <div class="row">
+        <div class="col-lg-12">
+            <h1 class="page-header">客户端用户微信支付申请列表</h1>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <input type="text" placeholder="请输入申请编号" name="transactionApplicationNo"
+                           id="transactionApplicationNo" style="float: left; width: 20%; margin-right: 5px;"
+                           class="form-control">
+                    <select style="float: left; width: 20%; margin-right: 5px;" class="form-control"
+                            name="applicationState" id="applicationState">
+                        <option value="all">所有进度</option>
+                        <option value="check">初审</option>
+                        <option value="recheck">复核</option>
+                    </select>
+                    <button style="float: left; width: 60px; margin-right: 5px;" class="form-control"
+                            onclick="search()">查询
+                    </button>
+                </div>
+                <div class="panel-body">
+                    <table data-toggle="table" data-pagination="true" data-side-pagination="server"
+                           id="table" data-url="/plansolve/manger/application/wxpay/list?transactionApplicationNo=&applicationType=&applicationState="
+                           data-page-list="[10, 20, 50, 100]">
+                        <thead>
+                        <tr>
+                            <th data-field="idTransactionApplication">申请ID</th>
+                            <th data-field="transactionApplicationNo">申请编号</th>
+                            <th data-field="username">申请人</th>
+                            <th data-field="mobile">申请人电话</th>
+                            <th data-field="applicationState">申请进度</th>
+                            <th data-field="money">涉及金额</th>
+                            <th data-field="userOrderNo">相关订单编号</th>
+                            <th data-field="applicationCreateTime">创建时间</th>
+                            <th data-field="applicationUpdateTime">更新时间</th>
+                            <th data-field="button">相关操作</th>
+                        </tr>
+                        </thead>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div th:include="main/foot::html"></div>
+<script th:src="@{/console/js/bootstrap-table.js}"></script>
+<script>
+    !function ($) {
+        $(document).on("click", "ul.nav li.parent > a > span.icon", function () {
+            $(this).find('em:first').toggleClass("glyphicon-minus");
+        });
+        $(".sidebar span.icon").find('em:first').addClass("glyphicon-plus");
+    }(window.jQuery);
+
+    $(window).on('resize', function () {
+        if ($(window).width() > 768) $('#sidebar-collapse').collapse('show')
+    })
+    $(window).on('resize', function () {
+        if ($(window).width() <= 767) $('#sidebar-collapse').collapse('hide')
+    })
+</script>
+<script>
+    function search() {
+        var transactionApplicationNo = $("#transactionApplicationNo").val();
+        var applicationType = $("#applicationType").val();
+        var applicationState = $("#applicationState").val();
+        var url = "/plansolve/manger/application/withdraw/list?transactionApplicationNo=" + transactionApplicationNo + "&applicationType=" + applicationType+ "&applicationState=" + applicationState;
+        $("#table").bootstrapTable("refresh", {url: url});
+    }
+</script>
+</body>
+</html>

@@ -1,0 +1,154 @@
+.link {
+  color: #eb8a00;
+  text-decoration: underline;
+}
+.input-yz .input-right.disabled {
+  background-color: #dfdfdf;
+  color: #777;
+}
+.input-yz .input-right.disabled.disabled-height {
+  height: 41px;
+  line-height: 41px;
+}
+.tab_dress {
+  font-size: 14px;
+}
+.tab_dress .right {
+  text-decoration: underline;
+}
+.full {
+  display: block;
+  width: 100%;
+}
+.view {
+  font-size: 16px;
+}
+.cityList > .item {
+  font-size: 16px;
+  background-color: #fff;
+  padding: 15px;
+  display: block;
+  width: 100%;
+}
+.cityList.cityList-group > .item {
+  padding: 0 15px;
+}
+.cityList.cityList-group > .item .item-inner {
+  padding: 15px 0;
+  display: block;
+  width: 100%;
+}
+.cityList.cityList-group > .item .item-inner + .item-inner {
+  border-top: 1px solid #f5f5f5;
+}
+.cityList.cityList-border > .item + .item {
+  border-top: 1px solid #efefef;
+}
+.fix-nav {
+  position: fixed;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  background-color: #cccccc;
+  width: 20px;
+  text-align: center;
+  padding: 10px 0;
+}
+.fix-nav > .item {
+  display: block;
+  color: #919191;
+  font-size: 16px;
+}
+.fix-nav > .item.active {
+  color: #000;
+}
+.fix-letter {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  margin-left: -50px;
+  margin-top: -50px;
+  width: 100px;
+  height: 100px;
+  background-color: #666666;
+  text-align: center;
+  display: none;
+  color: #ffffff;
+  font-size: 45px;
+  line-height: 100px;
+}
+.sex {
+  background-color: #fff;
+}
+.sex input {
+  display: none;
+}
+.sex .appear {
+  text-indent: 20px;
+  position: relative;
+}
+.sex .appear:after {
+  content: '';
+  border: 1px solid #000000;
+  -webkit-border-radius: 4px;
+  -moz-border-radius: 4px;
+  border-radius: 4px;
+  width: 15px;
+  height: 15px;
+  text-indent: 17px;
+  color: #000;
+  display: block;
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+.sex .appear .font {
+  position: relative;
+  top: -2px;
+  left: -2px;
+  font-size: 12px;
+  display: none;
+}
+.sex input:checked + .appear {
+  text-indent: 2px;
+}
+.sex input:checked + .appear .font {
+  display: inline-block;
+}
+.sex label {
+  display: inline-block;
+  width: 45%;
+}
+.sex.sex-line {
+  padding: 10px 15px 10px 80px;
+}
+.inputGroup.inputGroup_tell .form-control {
+  font-size: 14px;
+}
+.panel.panel-default .panel-footer .dress {
+  font-size: 14px;
+  width: 100%;
+  padding: 10px;
+  border: none;
+  resize: none;
+}
+.panel.panel-default .panel-footer .dress:focus,
+.panel.panel-default .panel-footer .dress:visited {
+  text-decoration: none;
+  outline: none;
+}
+.delete-text {
+  padding: 15px;
+  background-color: #fff;
+  color: #efa558;
+  font-size: 15px;
+  display: block;
+  width: 100%;
+  margin-top: 10px;
+}
+.linkGroup.linkGroup-dress > .item > .left > .top {
+  margin-bottom: 10px;
+}
+.pb {
+  height: 90px;
+}

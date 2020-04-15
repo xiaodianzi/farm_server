@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+    <title>错误页面</title>
+    <link rel="stylesheet" th:href="@{/wechat/css/style.css}">
+</head>
+
+<!--注意此处body有背景色的class-->
+<body class="bg-white">
+<div style="width: 90%;height: 200px;background: #D9534F;margin: 20px;padding: 20px;border-radius: 10px;">
+    <div align="center" style="padding: 20px;">
+        <font color="white" size="7">错误！</font><br/>
+        <font color="white" size="5"><span th:text="${msg}"/><a th:href="${url}">3s后跳转...</a></font>
+    </div>
+    <br/>
+</div>
+</body>
+<script type="text/javascript" th:inline="javascript">
+    var url = [[${url}]];
+    setTimeout("location.href=url", 3000);
+</script>
+</html>

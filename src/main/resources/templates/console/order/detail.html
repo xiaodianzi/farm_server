@@ -1,0 +1,285 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <div th:include="main/head::html"></div>
+    <link th:href="@{/console/css/bootstrap-table.css}" rel="stylesheet">
+    <style>
+        td {
+            padding: 5px;
+        }
+        .table-title{
+            width: 80px;
+        }
+    </style>
+</head>
+<body>
+<div th:include="main/title::html"></div>
+<div class="col-sm-9 col-sm-offset-3 col-lg-10 col-lg-offset-2 main">
+    <div class="row">
+        <ol class="breadcrumb">
+            <li><a href="/plansolve/home"><span class="glyphicon glyphicon-home"></span></a></li>
+            <li><a href="/plansolve/manger/app/user/appUserPage">订单列表</a></li>
+            <li class="active">订单详情</li>
+        </ol>
+    </div>
+    <div class="row">
+        <div class="col-lg-12">
+            <h1 class="page-header" th:text="${order.userOrderNo} + ' - 订单详情'"></h1>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-3">
+            <div class="panel panel-info">
+                <div class="panel-heading">订单基本信息</div>
+                <div class="panel-body">
+                    <table border="2px">
+                        <tr>
+                            <td class="table-title">订单编号</td>
+                            <td th:text="${order.userOrderNo}"></td>
+                        </tr>
+                        <tr>
+                            <td class="table-title">订单状态</td>
+                            <td th:text="${order.userOrderState}"></td>
+                        </tr>
+                        <tr>
+                            <td class="table-title">作物名称</td>
+                            <td th:text="${order.cropName}"></td>
+                        </tr>
+                        <tr>
+                            <td class="table-title">农机类型</td>
+                            <td th:text="${order.machineryType}"></td>
+                        </tr>
+                        <tr>
+                            <td class="table-title">农机数量</td>
+                            <td th:text="${order.machineryNum} + '辆'"></td>
+                        </tr>
+                        <tr>
+                            <td class="table-title">工作周期</td>
+                            <td th:text="${order.period} + '天'"></td>
+                        </tr>
+                        <tr>
+                            <td class="table-title">下单面积</td>
+                            <td th:text="${order.arce} + '亩'"></td>
+                        </tr>
+                        <tr>
+                            <td class="table-title">下单平台</td>
+                            <td th:text="${order.target}"></td>
+                        </tr>
+                        <tr>
+                            <td class="table-title">作业方式</td>
+                            <td th:if="${order.isCooperative}==true">协同作业</td>
+                            <td th:if="${order.isCooperative}==false">独立作业</td>
+                            <td th:if="${order.isCooperative}==null"></td>
+                        </tr>
+                        <tr>
+                            <td class="table-title">下单单价</td>
+                            <td th:text="${order.price} + '元/亩'"></td>
+                        </tr>
+                        <tr>
+                            <td class="table-title">索要金额</td>
+                            <td th:text="${order.demandAmount} == null ? '' : ${order.demandAmount}"></td>
+                        </tr>
+                        <tr>
+                            <td class="table-title">支付金额</td>
+                            <td th:text="${order.amountPayable} == null ? '' : ${order.amountPayable}"></td>
+                        </tr>
+                        <tr>
+                            <td class="table-title">支付方式</td>
+                            <td th:if="${order.isOnlinePayment}==true">微信支付</td>
+                            <td th:if="${order.isOnlinePayment}==false">线下支付</td>
+                            <td th:if="${order.isOnlinePayment}==null"></td>
+                        </tr>
+                        <tr>
+                            <td class="table-title">付款时间</td>
+                            <td th:text="${order.paymentTime} == null ? '' : ${#calendars.format(order.paymentTime,'yyyy-MM-dd HH:mm:ss')}"></td>
+                        </tr>
+                        <tr>
+                            <td class="table-title">下单时间</td>
+                            <td th:text="${order.createTime} == null ? '' : ${#calendars.format(order.createTime,'yyyy-MM-dd HH:mm:ss')}"></td>
+                        </tr>
+                        <tr>
+                            <td class="table-title">开始时间</td>
+                            <td th:text="${order.startTime} == null ? '' : ${#calendars.format(order.startTime,'yyyy-MM-dd HH:mm:ss')}"></td>
+                        </tr>
+                        <tr>
+                            <td class="table-title">更新时间</td>
+                            <td th:text="${order.createTime} == null ? '' : ${#calendars.format(order.createTime,'yyyy-MM-dd HH:mm:ss')}"></td>
+                        </tr>
+                        <tr>
+                            <td class="table-title">引路人名称</td>
+                            <td th:text="${order.guideName}"></td>
+                        </tr>
+                        <tr>
+                            <td class="table-title">引路人电话</td>
+                            <td th:text="${order.guideMobile}"></td>
+                        </tr>
+                        <tr>
+                            <td class="table-title">集合地址</td>
+                            <td th:text="${order.assemblyAddress}"></td>
+                        </tr>
+                        <tr>
+                            <td class="table-title">订单备注</td>
+                            <td th:text="${order.detail} == null ? '订单备注：' : '订单备注：' + ${order.detail}"></td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="panel panel-warning">
+                <div class="panel-heading">相关人员基本信息</div>
+                <div class="panel-body">
+                    <table border="2px">
+                        <tr>
+                            <td>身份</td>
+                            <td>姓名</td>
+                            <td>联系方式</td>
+                        </tr>
+                        <tr>
+                            <td>下单人</td>
+                            <td th:text="${createUser.nickname}"></td>
+                            <td th:text="${createUser.mobile}"></td>
+                        </tr>
+                        <tr th:if="${receiveUser ne null}">
+                            <td>接单人</td>
+                            <td th:text="${receiveUser.nickname}"></td>
+                            <td th:text="${receiveUser.mobile}"></td>
+                        </tr>
+                        <div th:each="worker : ${workers}" th:if="${worker.mobile ne receiveUser.mobile}">
+                            <td>工作人员</td>
+                            <td th:text="${worker.nickname}"></td>
+                            <td th:text="${worker.mobile}"></td>
+                        </div>
+                    </table>
+                </div>
+            </div>
+            <div class="panel panel-warning" th:if="${wxPay ne null}">
+                <div class="panel-heading">支付详情</div>
+                <div class="panel-body">
+                    <table border="2px">
+                        <tr th:if="${wxPay.tradeType ne null}">
+                            <td class="table-title">交易类型</td>
+                            <td th:text="${wxPay.tradeType}"></td>
+                        </tr>
+                        <tr th:if="${wxPay.tradeState ne null}">
+                            <td class="table-title">交易状态</td>
+                            <td th:text="${wxPay.tradeState}"></td>
+                        </tr>
+                        <tr th:if="${wxPay.totalFee ne null}">
+                            <td class="table-title">订单金额</td>
+                            <td th:text="${wxPay.totalFee * 0.01} + '元' "></td>
+                        </tr>
+                        <tr th:if="${wxPay.cashFee ne null}">
+                            <td class="table-title">支付金额</td>
+                            <td th:text="${wxPay.cashFee * 0.01} + '元' "></td>
+                        </tr>
+                        <tr th:if="${wxPay.transactionId ne null}">
+                            <td class="table-title">支付编号</td>
+                            <td th:text="${wxPay.transactionId}"></td>
+                        </tr>
+                        <tr th:if="${wxPay.attach ne null}">
+                            <td class="table-title">附加数据</td>
+                            <td th:text="${wxPay.attach}"></td>
+                        </tr>
+                        <tr th:if="${wxPay.tradeStateDesc ne null}">
+                            <td class="table-title">交易状态描述</td>
+                            <td th:text="${wxPay.tradeStateDesc}"></td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+            <div class="panel panel-warning" th:if="${cooperation ne null}">
+                <div class="panel-heading">合作社信息</div>
+                <div class="panel-body">
+                    <table border="2px">
+                        <tr>
+                            <td class="table-title">合作社名称</td>
+                            <td th:text="${cooperation.cooperationName}"></td>
+                        </tr>
+                        <tr>
+                            <td class="table-title">合作社社长</td>
+                            <td th:text="${proprieter.nickname + '[' + proprieter.mobile + ']'}"></td>
+                        </tr>
+                        <tr>
+                            <td class="table-title">合作社地址</td>
+                            <td th:text="${address}"></td>
+                        </tr>
+                        <tr>
+                            <td class="table-title">注册时间</td>
+                            <td th:text="${#calendars.format(cooperation.registTime,'yyyy-MM-dd HH:mm:ss')}"></td>
+                        </tr>
+                        <tr>
+                            <td class="table-title">更新时间</td>
+                            <td th:text="${#calendars.format(cooperation.updateTime,'yyyy-MM-dd HH:mm:ss')}"></td>
+                        </tr>
+                        <tr>
+                            <td class="table-title">描述</td>
+                            <td th:text="${cooperation.description}"></td>
+                        </tr>
+                    </table>
+                    <hr>
+                    <div class="form-group">
+                        <label>合作社成员：</label>
+                        <table border="2px">
+                            <tr>
+                                <td>姓名</td>
+                                <td>联系方式</td>
+                            </tr>
+                            <div th:each="member : ${members}">
+                                <tr>
+                                    <td th:text="${member.nickname}"></td>
+                                    <td th:text="${member.mobile}"></td>
+                                </tr>
+                            </div>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-6">
+            <div class="panel panel-danger">
+                <div class="panel-heading">订单变更详情</div>
+                <div class="panel-body">
+                    <table border="2px">
+                        <tr>
+                            <td>ID</td>
+                            <td>变更类型</td>
+                            <td>变更时间</td>
+                            <td>详情</td>
+                        </tr>
+                        <div th:each="log : ${logs}">
+                            <tr>
+                                <td th:text="${log.idOrderChangeLog}"></td>
+                                <td th:text="${log.changeType}"></td>
+                                <td th:text="${#calendars.format(log.changeTime,'yyyy-MM-dd HH:mm:ss')}"></td>
+                                <td th:text="${log.detail}"></td>
+                            </tr>
+                        </div>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+<div th:include="main/foot::html"></div>
+<script th:src="@{/console/js/bootstrap-table.js}"></script>
+<script>
+    !function ($) {
+        $(document).on("click", "ul.nav li.parent > a > span.icon", function () {
+            $(this).find('em:first').toggleClass("glyphicon-minus");
+        });
+        $(".sidebar span.icon").find('em:first').addClass("glyphicon-plus");
+    }(window.jQuery);
+
+    $(window).on('resize', function () {
+        if ($(window).width() > 768) $('#sidebar-collapse').collapse('show')
+    })
+    $(window).on('resize', function () {
+        if ($(window).width() <= 767) $('#sidebar-collapse').collapse('hide')
+    })
+</script>
+</body>
+</html>

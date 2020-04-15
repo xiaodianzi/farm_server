@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>农小满</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+	<link th:href="@{/wechat/css/style.css}" rel="stylesheet">
+</head>
+
+<!--注意此处body有背景色的class-->
+<body>
+	<div class="panel-group container">
+		<div align="center" th:style="'background: url(' + @{/wechat/images/border.png} + ') no-repeat center center;background-size: 40% auto; margin: 15px;'">
+			<font size="4"><b>实时订单</b></font>
+		</div>
+
+		<div th:each="item : ${page.rows}">
+			<div class="panel panel-order" style="background: #FFFFFF;border-radius: 10px;" onclick="javascript:location.href='https://android.myapp.com/myapp/detail.htm?apkName=com.plan_solve.farmlandassistant'">
+				<div class="panel-header">
+					<div style="float: left;" th:if="${item.state eq 0}"><font size="3"><b th:text="${item.machineryType}"></b></font></div>
+					<div style="float: left;" th:if="${item.state ne 0}"><font size="3" color="#B4B4B4"><b th:text="${item.machineryType}"></b></font></div>
+
+					<div style="float: right;">
+						<font color="red" size="3" th:if="${item.state eq 0}"><b th:text="'￥' + ${item.price}"></b></font>
+						<font color="#B4B4B4" size="3" th:if="${item.state ne 0}"><b th:text="'￥' + ${item.price}"></b></font>
+
+						<font color="#B4B4B4">元/亩</font>
+
+						<font color="red" size="3" th:if="${item.state eq 0}"><b>抢单</b></font>
+						<font color="#B4B4B4" size="3" th:if="${item.state eq 1}"><b>已接单</b></font>
+						<font color="#B4B4B4" size="3" th:if="${item.state eq -1}"><b>已过期</b></font>
+					</div>
+				</div>
+				<div class="panel-body">
+					<div align="center">
+					<span style="float: left; width: 15%;">
+						<div th:switch="${item.crop}">
+							<img th:case="玉米" height="70px" th:src="@{/wechat/images/grain/corn-mdpi.png}" />
+							<img th:case="水稻" height="70px" th:src="@{/wechat/images/grain/rice-mdpi.png}" />
+							<img th:case="小麦" height="70px" th:src="@{/wechat/images/grain/wheat-mdpi.png}" />
+							<img th:case="黄豆" height="70px" th:src="@{/wechat/images/grain/soybean-mdpi.png}" />
+							<img th:case="绿豆" height="70px" th:src="@{/wechat/images/grain/greenbean-mdpi.png}" />
+							<img th:case="土豆" height="70px" th:src="@{/wechat/images/grain/potato-mdpi.png}" />
+							<img th:case="高粱" height="70px" th:src="@{/wechat/images/grain/broomcorn-mdpi.png}" />
+							<img th:case="*" height="70px" th:src="@{/wechat/images/grain/rice-mdpi.png}" />
+						</div>
+					</span>
+						<span style="float: right;width: 80%;padding: 10px;">
+						<div>
+							<div>
+								<span style="float: left; width: 10%;"><img th:src="@{/wechat/images/icon/map-mdpi.png}" width="50%" style="display: block;"/></span>
+								<span th:if="${item.state eq 0}" style="float: right; width: 90%;text-align:left;"><font size="2" th:text="${item.address}"></font></span>
+								<span th:if="${item.state ne 0}" style="float: right; width: 90%;text-align:left;"><font size="2" color="#B4B4B4" th:text="${item.address}"></font></span>
+
+							</div>
+						</div>
+						<div>
+							<span style="float: left; ">
+								<span style="float: left;"><img th:src="@{/wechat/images/icon/date-mdpi.png}" width="50%" style="display: block;"/></span>
+								<span th:if="${item.state eq 0}"  style="float: right;"><font th:text="${item.startTime}"></font></span>
+								<span th:if="${item.state ne 0}"  style="float: right;"><font color="#B4B4B4" th:text="${item.startTime}"></font></span>
+
+							</span>
+							<span style="float: right; ">
+								<span style="float: left;"><img th:src="@{/wechat/images/icon/arce-mdpi.png}" width="50%" style="display: block;"/></span>
+								<span th:if="${item.state eq 0}" style="float: right;"><font th:text="${item.acreage} + '亩'"></font></span>
+								<span th:if="${item.state ne 0}" style="float: right;"><font color="#B4B4B4" th:text="${item.acreage} + '亩'"></font></span>
+							</span>
+						</div>
+					</span>
+					</div>
+				</div>
+				<div class="panel-footer">
+					<font color="#B4B4B4" th:text="${item.createTime}"></font>
+				</div>
+			</div>
+		</div>
+
+		<div align="center">
+			<a style="margin: 10px;" href="https://android.myapp.com/myapp/detail.htm?apkName=com.plan_solve.farmlandassistant"><font color="#777777"><b>想要了解更多，请下载我们的APP</b></font></a>
+		</div>
+		<div align="center" onclick="javascript:location.href='https://android.myapp.com/myapp/detail.htm?apkName=com.plan_solve.farmlandassistant'">
+			<img th:src="@{/qr/downloadQR.png}" width="50%" style="margin: 10px">
+		</div>
+	</div>
+</body>
+<script src="http://cdn.bootcss.com/jquery/1.11.1/jquery.min.js"></script>
+<script th:src="@{/wechat/js/touch.js}"></script>
+<script th:src="@{/wechat/js/main.js}"></script>
+</html>

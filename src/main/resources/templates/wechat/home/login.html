@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+    <title>登录</title>
+    <link rel="stylesheet" th:href="@{/wechat/css/style.css}">
+</head>
+<!--注意此处body有背景色的class-->
+<body class="bg-white">
+<div class="tab">
+    <div class="tab-body">
+        <div class="item active">
+            <div class="login-padding">
+                <form action="login" method="post">
+                    <div class="input-tell">
+                        <input type="number" name="mobile" id="mobile" placeholder="请输入您的手机号" class="tell">
+                    </div>
+                    <div class="input-yz">
+                        <input type="number" name="captcha" id="captcha" placeholder="请输入您的验证码" class="tell">
+                        <a href="javascript:;" class="input-right" id="captchaBtn" onclick="getCaptcha();">获取验证码</a>
+                    </div>
+                    <button type="submit" class="btn btn-login btn-block">登录</button>
+                    <a href="" class="btn btn-register btn-block">注册</a>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+<script src="http://cdn.bootcss.com/jquery/1.11.1/jquery.min.js"></script>
+<script th:src="@{/wechat/js/touch.js}"></script>
+<script th:src="@{/wechat/js/main.js}"></script>
+<script>
+    function getCaptcha() {
+        if ('获取验证码' == $('#captchaBtn').text()) {
+            var mobile = $('#mobile').val();
+            if (mobile.length == 11) {
+                $('#captchaBtn').text('60s后重试');
+                $('#captchaBtn').addClass("disabled disabled-height");
+                $.post('sendCaptcha',
+                    {mobile: mobile},
+                    function (data) {
+                        $('.btn-gray').html(data);
+                    });
+            }
+        }
+    }
+</script>
+<script>
+    $().ready(function () {
+        setInterval(function () {
+            if ('获取验证码' != $('#captchaBtn').text()) {
+                var txt = $('#captchaBtn').text();
+                txt.replace('s后重试', '');
+                var s = parseInt(txt);
+                s--;
+                if (s > 0) {
+                    $('#captchaBtn').text(s + 's后重试');
+                } else {
+                    $('#captchaBtn').text('获取验证码');
+                    $('#captchaBtn').removeClass("disabled disabled-height");
+                }
+            }
+        }, 1000);
+    });
+</script>
+</body>
+</html>

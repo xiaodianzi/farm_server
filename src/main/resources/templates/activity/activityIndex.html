@@ -1,0 +1,283 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <div th:include="main/head::html"></div>
+    <link th:href="@{/console/css/bootstrap-table.css}" rel="stylesheet">
+</head>
+<body>
+<div th:include="main/title::html"></div>
+<div class="col-sm-9 col-sm-offset-3 col-lg-10 col-lg-offset-2 main">
+    <div class="row">
+        <ol class="breadcrumb">
+            <li><a href="/plansolve/home"><span class="glyphicon glyphicon-home"></span></a></li>
+            <li class="active">优惠活动</li>
+            <li class="active">活动管理</li>
+        </ol>
+    </div>
+    <div class="row">
+        <div class="col-lg-12">
+            <h1 class="page-header">优惠活动列表</h1>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="panel panel-default">
+                <div class="panel-body">
+                    <div class="form-group">
+                        <div data-toggle="modal" data-target="#addActivityForm">
+                            <input type="button" class="btn btn-default"
+                                   style="width: 120px; background: #0099ff; margin-left: 25px; color: white"
+                                   value="添加"/>
+                        </div>
+                    </div>
+                    <table data-toggle="table" data-url="/plansolve/manager/web/activity/query"
+                           data-show-refresh="true" id="table"
+                           data-show-toggle="true" data-show-columns="true" data-search="true" data-pagination="true"
+                           data-side-pagination="server" data-sort-name="idPromotionActivity" data-page-list="[10, 20, 50, 100]"
+                           data-sort-order="asc">
+                        <thead>
+                        <tr>
+                            <th data-field="idPromotionActivity" data-checkbox="true"></th>
+                            <th data-field="pictureUrl" data-sortable="true">活动图片</th>
+                            <th data-field="activityName" data-sortable="true">活动名称</th>
+                            <th data-field="description" data-sortable="true">活动描述</th>
+                            <th data-field="activityType" data-sortable="true">活动类型</th>
+                            <th data-field="maxPlayers" data-sortable="true">人数限制</th>
+                            <th data-field="maxAcreage" data-sortable="true">土地面积限制</th>
+                            <th data-field="startTime" data-sortable="true">开始时间</th>
+                            <th data-field="endTime" data-sortable="true">结束时间</th>
+                            <th data-field="contacts" data-sortable="true">联系方式</th>
+                            <th data-field="addressDetail" data-sortable="true">活动地点</th>
+                            <th data-field="isValid" data-sortable="true">规则时效</th>
+                            <th data-field="button">相关操作</th>
+                        </tr>
+                        </thead>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!--新增积分模态框开始-->
+<div class="modal inmodal _dialog" id="addActivityForm" tabindex="-1"
+     role="dialog" aria-hidden="true"
+     style="display: none; top: 25%; left: 30%; width: 50%;">
+    <div class="col-lg-12">
+        <div class="panel panel-default">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span>
+                </button>
+                <h4 class="modal-title" style="text-align: center;">新增积分规则</h4>
+            </div>
+            <div class="panel-body">
+                <div class="col-md-12">
+                    <form role="form" th:method="POST" th:action="@{/manager/web/activity/add}">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label>活动名称</label>
+                                <input th:type="text" th:name="activityName" class="form-control"
+                                       placeholder="请输入优惠活动的名称" required="required">
+                            </div>
+                            <div class="form-group">
+                                <label>活动介绍</label>
+                                <input th:type="text" th:name="description" class="form-control" placeholder="请输入优惠活动的说明"
+                                       required="required">
+                            </div>
+                            <div class="form-group">
+                                <label>人数限制</label>
+                                <input th:type="number" min="0" th:name="maxPlayers" class="form-control" placeholder="请输入人数限制">
+                            </div>
+                            <div class="form-group">
+                                <label>开始时间</label>
+                                <input th:type="text" th:name="startTime" class="form-control" placeholder="请输入活动开始时间，如2019-05-12"
+                                       required="required">
+                            </div>
+                            <div class="form-group">
+                                <label>联系方式</label>
+                                <input th:type="text" th:name="contacts" class="form-control" placeholder="请输入联系方式"
+                                       required="required">
+                            </div>
+
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label>活动图片</label>
+                                <input th:type="text" th:name="pictureUrl" class="form-control"
+                                       placeholder="请输入活动图片的URL">
+                            </div>
+                            <div class="form-group">
+                                <label>活动类型</label>
+                                <select th:name="activityType" class="form-control" required="required">
+                                    <option>-- 请选择 --</option>
+                                    <option th:value="create_order_activity" th:text="'-- 下单优惠活动 --'"/>
+                                    <option th:value="accept_order_activity" th:text="'-- 接单优惠活动 --'"/>
+                                    <option th:value="lottery_activity" th:text="'-- 抽奖优惠活动 --'"/>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label>土地亩数限制</label>
+                                <input th:type="number" min="0" th:name="maxAcreage" class="form-control" placeholder="请输入土地面积限制">
+                            </div>
+                            <div class="form-group">
+                                <label>结束时间</label>
+                                <input th:type="text" th:name="endTime" class="form-control" placeholder="请输入活动结束时间，如2019-05-12"
+                                       required="required">
+                            </div>
+                            <div class="form-group">
+                                <label>立即生效</label>
+                                <select th:name="isValid" class="form-control" required="required">
+                                    <option>-- 请选择 --</option>
+                                    <option th:value="true" th:text="'-- 是 --'"/>
+                                    <option th:value="false" th:text="'-- 否 --'"/>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <label>活动地点</label>
+                                <input th:type="text" th:name="addressDetail" class="form-control"
+                                       placeholder="请输入活动的地址">
+                            </div>
+                        </div>
+                        <div class="col-md-12" style="text-align: center;">
+                            <button th:type="submit" class="btn btn-primary" style="margin-right: 50px;">提交</button>
+                            <button th:type="reset" class="btn btn-default">重置</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!--新增积分规则模态框结束-->
+<!--修改积分规则模态框开始-->
+<div class="modal inmodal _dialog" id="editActivityForm" tabindex="-1"
+     role="dialog" aria-hidden="true"
+     style="display: none; top: 25%; left: 30%; width: 50%;">
+    <div class="col-lg-12">
+        <div class="panel panel-default">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span>
+                </button>
+                <h4 class="modal-title" style="text-align: center;">修改活动细则</h4>
+            </div>
+            <div class="panel-body">
+                <div class="col-md-12">
+                    <form role="form" th:method="POST" th:action="@{/manager/web/activity/update}">
+                        <input th:type="hidden" th:name="idPromotionActivity" class="form-control" required="required">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label>活动名称</label>
+                                <input th:type="text" th:name="activityName" class="form-control"
+                                       placeholder="请输入优惠活动的名称" required="required">
+                            </div>
+                            <div class="form-group">
+                                <label>活动介绍</label>
+                                <input th:type="text" th:name="description" class="form-control" placeholder="请输入优惠活动详情"
+                                       required="required">
+                            </div>
+                            <div class="form-group">
+                                <label>人数限制</label>
+                                <input th:type="number" min="0" th:name="maxPlayers" class="form-control" placeholder="请输入人数限制">
+                            </div>
+                            <div class="form-group">
+                                <label>开始时间</label>
+                                <input th:type="text" th:name="startTime" class="form-control" placeholder="请输入活动开始时间，如2019-05-12"
+                                       required="required">
+                            </div>
+                            <div class="form-group">
+                                <label>联系方式</label>
+                                <input th:type="text" th:name="contacts" class="form-control" placeholder="请输入联系方式"
+                                       required="required">
+                            </div>
+
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label>活动图片</label>
+                                <input th:type="text" th:name="pictureUrl" class="form-control"
+                                       placeholder="请输入活动图片的URL">
+                            </div>
+                            <div class="form-group">
+                                <label>活动类型</label>
+                                <select th:name="activityType" th:id="_activityType" class="form-control" required="required">
+                                    <option>-- 请选择 --</option>
+                                    <option th:value="create_order_activity" th:text="'-- 下单活动 --'"/>
+                                    <option th:value="accept_order_activity" th:text="'-- 接单活动 --'"/>
+                                    <option th:value="lottery_activity" th:text="'-- 抽奖活动 --'"/>
+                                    <option th:value="score_earn_activity" th:text="'-- 获取积分活动 --'"/>
+                                    <option th:value="score_exchange_activity" th:text="'-- 兑换积分活动 --'"/>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label>土地亩数限制</label>
+                                <input th:type="number" min="0" th:name="maxAcreage" class="form-control" placeholder="请输入土地面积限制">
+                            </div>
+                            <div class="form-group">
+                                <label>结束时间</label>
+                                <input th:type="text" th:name="endTime" class="form-control" placeholder="请输入活动结束时间，如2019-05-12"
+                                       required="required">
+                            </div>
+                            <div class="form-group">
+                                <label>立即生效</label>
+                                <select th:name="isValid" th:id="_isValid" class="form-control" required="required">
+                                    <option>-- 请选择 --</option>
+                                    <option th:value="true" th:text="'-- 是 --'"/>
+                                    <option th:value="false" th:text="'-- 否 --'"/>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <label>活动地点</label>
+                                <input th:type="text" th:name="addressDetail" class="form-control"
+                                       placeholder="请输入活动的地址">
+                            </div>
+                        </div>
+                        <div class="col-md-12" style="text-align: center;">
+                            <input name="res" type="reset" hidden/>
+                            <button th:type="submit" class="btn btn-primary" style="">提交</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!--修改积分规则模态框结束-->
+<div th:include="main/foot::html"></div>
+<script th:src="@{/console/js/bootstrap-table.js}"></script>
+<script>
+    !function ($) {
+        $(document).on("click", "ul.nav li.parent > a > span.icon", function () {
+            $(this).find('em:first').toggleClass("glyphicon-minus");
+        });
+        $(".sidebar span.icon").find('em:first').addClass("glyphicon-plus");
+    }(window.jQuery);
+
+    $(window).on('resize', function () {
+        if ($(window).width() > 768) $('#sidebar-collapse').collapse('show')
+    })
+    $(window).on('resize', function () {
+        if ($(window).width() <= 767) $('#sidebar-collapse').collapse('hide')
+    })
+</script>
+<script>
+    function editActivityForm(a,b,c,d,e,f,g,h,i,j,k,l) {
+        $("input[name='res']").click();
+        $("input[name='idPromotionActivity']").val(a);
+        $("input[name='pictureUrl']").val(b);
+        $("input[name='activityName']").val(c);
+        $("input[name='description']").val(d);
+        $('#_activityType').find('option[value="'+e+'"]').attr("selected",true);
+        $("input[name='maxPlayers']").val(f);
+        $("input[name='maxAcreage']").val(g);
+        $("input[name='startTime']").val(h);
+        $("input[name='endTime']").val(i);
+        $("input[name='contacts']").val(j);
+        $("input[name='addressDetail']").val(k);
+        $('#_isValid').find('option[value="'+l+'"]').attr("selected",true);
+    }
+</script>
+</body>
+</html>

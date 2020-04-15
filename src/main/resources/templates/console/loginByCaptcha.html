@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<head th:include="main/head::html"></head>
+<body>
+<div class="row">
+    <div class="col-xs-10 col-xs-offset-1 col-sm-8 col-sm-offset-2 col-md-4 col-md-offset-4">
+        <div class="login-panel panel panel-default">
+            <div class="panel-heading">验证码登录</div>
+            <div class="panel-body">
+                <form role="form" action="/plansolve/admin/login/captcha" method="POST">
+                    <fieldset>
+                        <div class="form-group">
+                            <input class="form-control" placeholder="账号" name="mobile" id="mobile" type="text">
+                        </div>
+                        <div class="form-group" style="margin-bottom: 64px;">
+                            <input class="form-control" style="float: left;width: 75%;" placeholder="验证码" name="captcha"
+                                   type="text">
+                            <a href="javascript:;" class="btn btn-default" style="float: right;" id="captchaBtn"
+                               onclick="getCaptcha();">获取验证码</a>
+                        </div>
+                        <div class="form-group">
+                            <a href="/plansolve/toLoginByPassword" style="float: right">手机密码登录</a>
+                        </div>
+                        <button type="submit" class="btn btn-primary">登录</button>
+                    </fieldset>
+                </form>
+            </div>
+        </div>
+    </div><!-- /.col-->
+</div><!-- /.row -->
+<div th:include="main/foot::html"></div>
+<script>
+    !function ($) {
+        $(document).on("click", "ul.nav li.parent > a > span.icon", function () {
+            $(this).find('em:first').toggleClass("glyphicon-minus");
+        });
+        $(".sidebar span.icon").find('em:first').addClass("glyphicon-plus");
+    }(window.jQuery);
+
+    $(window).on('resize', function () {
+        if ($(window).width() > 768) $('#sidebar-collapse').collapse('show')
+    })
+    $(window).on('resize', function () {
+        if ($(window).width() <= 767) $('#sidebar-collapse').collapse('hide')
+    })
+</script>
+<script>
+    function getCaptcha() {
+        if ('获取验证码' == $('#captchaBtn').text()) {
+            var mobile = $('#mobile').val();
+            if (mobile.length == 11) {
+                $('#captchaBtn').text('60s后重试');
+                $('#captchaBtn').addClass("disabled disabled-height");
+                $.post('/plansolve/captcha',
+                    {mobile: mobile},
+                    function (data) {
+                        if (data == 0) {
+                            alert("发送成功，验证码在3分钟内有效");
+                        }
+                    });
+            }
+        }
+    }
+</script>
+<script>
+    $().ready(function () {
+        setInterval(function () {
+            if ('获取验证码' != $('#captchaBtn').text()) {
+                var txt = $('#captchaBtn').text();
+                txt.replace('s后重试', '');
+                var s = parseInt(txt);
+                s--;
+                if (s > 0) {
+                    $('#captchaBtn').text(s + 's后重试');
+                } else {
+                    $('#captchaBtn').text('获取验证码');
+                    $('#captchaBtn').removeClass("disabled disabled-height");
+                }
+            }
+        }, 1000);
+    });
+</script>
+</body>
+</html>

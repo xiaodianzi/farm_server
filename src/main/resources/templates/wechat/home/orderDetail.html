@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>订单详情</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+    <link rel="stylesheet" th:href="@{/wechat/css/style.css}">
+</head>
+
+<body class="bg-white">
+
+<div class="panel-group">
+    <div class="panel panel-order">
+        <div class="panel-header">
+            <div class="left">订单编号：<span th:text="${order.userOrderNo}"/></div>
+            <div class="right">
+                <span th:if="${order.userOrderState eq 'waiting'}" th:text="待接单"/>
+                <span th:if="${order.userOrderState eq 'confirming'}" th:text="待确认"/>
+                <span th:if="${order.userOrderState eq 'working'}" th:text="待作业"/>
+                <span th:if="${order.userOrderState eq 'checking'}" th:text="待验收"/>
+                <span th:if="${order.userOrderState eq 'finished'}" th:text="已完成"/>
+                <span th:if="${order.userOrderState eq 'canceled'}" th:text="已取消"/>
+            </div>
+        </div>
+        <div class="panel-body">
+            <div align="center">
+                <span style="width: 20%;" th:switch="${order.cropName}">
+                    <img height="60px" th:case="水稻" th:src="@{/wechat/images/icon-plant/indent_icon_rice.png}"/>
+                    <img height="60px" th:case="小麦" th:src="@{/wechat/images/icon-plant/indent_icon_rice.png}"/>
+                    <img height="60px" th:case="玉米" th:src="@{/wechat/images/icon-plant/indent_icon_corn.png}"/>
+                    <img height="60px" th:case="黄豆" th:src="@{/wechat/images/icon-plant/indent_icon_bean.png}"/>
+                    <img height="60px" th:case="绿豆" th:src="@{/wechat/images/icon-plant/indent_icon_bean.png}"/>
+                    <img height="60px" th:case="土豆" th:src="@{/wechat/images/icon-plant/indent_icon_potato.png}"/>
+                    <img height="60px" th:case="高粱" th:src="@{/wechat/images/icon-plant/indent_icon_rice.png}"/>
+                </span>
+                <span style="width: 25%;">
+		            <span><font size="5" color="#EB8A00"><span th:text="${order.price}"/></font></span><br>
+			        <span style="vertical-align: top;">单价(元/亩)</span>
+		        </span>
+                <span style="width: 25%;">
+			        <span><font size="5" color="#EB8A00"><span th:text="${order.arce}"/></font></span><br>
+			        <span style="vertical-align: top;">面积(亩)</span>
+		        </span>
+                <span style="width: 25%;">
+			        <span><font size="5" color="#EB8A00"><span th:text="${order.machineryNum}"/>台</font></span><br>
+			        <span style="vertical-align: top;"><span th:text="${order.machineryType}"/></span>
+		        </span>
+            </div>
+        </div>
+    </div>
+
+    <div class="panel-group">
+        <div class="panel panel-order">
+            <div class="panel-header">
+                <div class="left">作业时间：</div>
+                <div class="right">
+                    <font color="#000000"><span th:text="${#dates.format(order.startTime, 'yyyy-MM-dd')}"/></span>
+                        开始，作业周期<span th:text="${order.period}"/>天</font>
+                </div>
+            </div>
+            <div class="panel-header">
+                <div class="left">集合地点：</div>
+                <div class="right" style="max-width: 230px">
+                    <font color="#000000"><span th:text="${order.guideDTO.assemblyAddress}"/></font>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="panel-group">
+        <div class="panel panel-order">
+            <div class="panel-header">
+                <div class="left">地块名称：</div>
+                <div class="right">
+                    <font color="#000000"><span th:text="${order.farmlandDTO.farmlandName}"/></font>
+                </div>
+            </div>
+            <div class="panel-header">
+                <div class="left">地块位置：</div>
+                <div class="right" style="max-width: 230px">
+                    <font color="#000000">
+                        <span th:text="${order.farmlandDTO.address.province}"/>
+                        <span th:text="${order.farmlandDTO.address.city}"/>
+                        <span th:text="${order.farmlandDTO.address.county}"/>
+                        <span th:text="${order.farmlandDTO.address.town}"/>
+                        <span th:text="${order.farmlandDTO.address.detail}"/>
+                    </font>
+                </div>
+            </div>
+            <div class="panel-header">
+                <div class="left">订单备注：</div>
+                <br/>
+                <div>
+                    <textarea name="" cols="30" rows="5" class="view" th:value="${order.detail}"></textarea>
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="panel-group">
+        <div class="panel panel-order">
+            <div class="panel-header">
+                <div class="left">领路人：</div>
+                <div class="right">
+                    <font color="#000000"><span th:text="${order.guideDTO.guideName}"/></font>
+                </div>
+            </div>
+            <div class="panel-header">
+                <div class="left">下单人：</div>
+                <div class="right">
+                    <font color="#000000"><span th:text="${order.createBy.nickname}"/></font>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="panel-group">
+        <div class="panel panel-order">
+            <div class="panel-header">
+                <div class="left">接单人：</div>
+                <div class="right">
+                    <font color="#000000"><span th:if="${order.receiveBy ne null}" th:text="${order.receiveBy.nickname}"/></font>
+                </div>
+            </div>
+        </div>
+
+        <div class="panel-group">
+            <div class="panel panel-order">
+                <div class="panel-header">
+                    <div class="left">托管之家作业标准</div>
+                    <div class="right">
+                        <span class="side font">&#xe601;</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="hr"></div>
+
+        <div class="modifyPSw">
+            <form method="post" action="getOrder">
+                <input type="hidden" name="orderNo" th:value="${order.userOrderNo}"/>
+                <button type="submit" class="btn btn-login btn-block">接单</button>
+            </form>
+        </div>
+    </div>
+</div>
+</body>
+</html>

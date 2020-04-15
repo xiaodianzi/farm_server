@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>图片上传</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+</head>
+<body>
+<div style="margin-top: 2rem; text-align: center;"><h2>水稻病虫害诊断</h2></div>
+<div style="margin-top: 2rem; text-align: center;">
+    <form action="/plansolve/farm/opencv/referenceImages" method="post" enctype="multipart/form-data" name="form1" id="form1">
+         <input th:type="hidden" th:name="cropType" th:value="rice" />
+         <label>
+            <input type="file" name="modelImg" />
+         </label>
+         <label>
+            <input type="submit" value="图像匹配" />
+         </label>
+    </form>
+</div>
+<div style="text-align: center; margin-top: 2rem;"><a href="/plansolve/openPage/referencePage">去往玉米病虫害诊断操作页面</a></div>
+</body>
+</html>

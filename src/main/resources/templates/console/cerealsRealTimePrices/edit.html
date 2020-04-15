@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <div th:include="main/head::html"></div>
+    <link th:href="@{/console/css/bootstrap-table.css}" rel="stylesheet">
+</head>
+<body>
+<div th:include="main/title::html"></div>
+<div class="col-sm-9 col-sm-offset-3 col-lg-10 col-lg-offset-2 main">
+    <div class="row">
+        <ol class="breadcrumb">
+            <li><a href="/plansolve/home"><span class="glyphicon glyphicon-home"></span></a></li>
+            <li><a href="typePage">实时粮价粮食类型</a></li>
+            <li><a th:href="'realTimePricePage?idCerealsMassageType=' + ${type.idCerealsMassageType}">实时粮价消息 - <span th:text="${type.crop}"/></a></li>
+            <li class="active">实时粮价消息编辑</li>
+        </ol>
+    </div>
+    <div class="row">
+        <div class="col-lg-12">
+            <h1 class="page-header">实时粮价消息 - <span th:text="${type.crop}"/></h1>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="panel panel-default">
+                <div class="panel-heading">编辑实时粮价消息</div>
+                <div class="panel-body">
+                    <div class="col-md-12">
+                        <form role="form" method="post" action="editRealTimePrice" enctype="multipart/form-data"
+                              id="editTable">
+                            <div class="col-md-6">
+                                <input type="hidden" name="idCerealsMassage" th:value="${item.idCerealsMassage}">
+                                <input type="hidden" name="idCerealsMassageType" th:value="${type.idCerealsMassageType}">
+                                <div class="form-group">
+                                    <label>文章标题</label>
+                                    <input type="text" name="title" class="form-control" placeholder="请填写文章标题"
+                                           th:value="${item.title}">
+                                </div>
+
+                                <div class="form-group">
+                                    <label>文章来源</label>
+                                    <input type="text" name="source" class="form-control" placeholder="请填写文章来源"
+                                           th:value="${item.source}">
+                                </div>
+
+                                <div class="form-group">
+                                    <label>发布时间</label>
+                                    <input type="text" name="time" class="form-control" placeholder="请填写发布时间"
+                                           th:value="${item.releaseTime}">
+                                </div>
+
+                                <div class="form-group">
+                                    <label>显示城市</label>
+                                    <select class="form-control" name="address">
+                                        <option value="吉林" th:selected="${item.address eq '吉林'}">吉林</option>
+                                        <option value="东北三省" th:selected="${item.address eq '东北三省'}">东北三省</option>
+                                        <option value="全国" th:selected="${item.address eq '全国'}">全国</option>
+                                    </select>
+                                </div>
+
+                                <div class="form-group">
+                                    <label>新闻链接[选填]</label>
+                                    <input type="text" name="url" class="form-control" placeholder="请填写新闻链接[选填]"
+                                           th:value="${item.url}">
+                                </div>
+
+                                <div class="form-group">
+                                    <label>序号</label>
+                                    <input type="text" name="sno" class="form-control" th:value="${item.sno}">
+                                </div>
+
+                                <div class="form-group checkbox">
+                                    <label><input type="radio" name="isValid" value="1" th:checked="${item.isValid}">有效</label>
+                                    <label><input type="radio" name="isValid" value="0" th:checked="${!item.isValid}">无效</label>
+                                </div>
+
+                                <button type="submit" class="btn btn-primary">提交</button>
+                                <button type="reset" class="btn btn-default">重置</button>
+                            </div>
+                            <div class="form-group col-md-6">
+                                <div class="form-group">
+                                    <label>详情&nbsp;&nbsp;&nbsp;&nbsp;<a href="#" class="btn btn-info btn-sm"
+                                                                        onclick="addPicForDetail()">添加图片</a></label>
+                                    <textarea name="detail" id="detail" class="form-control" rows="20"
+                                              th:text="${item.detail}"></textarea>
+                                    <div id="picForDetail" hidden></div>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div><!-- /.col-->
+    </div>
+</div>
+<div th:include="main/foot::html"></div>
+<script>
+    !function ($) {
+        $(document).on("click", "ul.nav li.parent > a > span.icon", function () {
+            $(this).find('em:first').toggleClass("glyphicon-minus");
+        });
+        $(".sidebar span.icon").find('em:first').addClass("glyphicon-plus");
+    }(window.jQuery);
+
+    $(window).on('resize', function () {
+        if ($(window).width() > 768) $('#sidebar-collapse').collapse('show')
+    })
+    $(window).on('resize', function () {
+        if ($(window).width() <= 767) $('#sidebar-collapse').collapse('hide')
+    })
+</script>
+<script>
+    function addPicForDetail() {
+        var files = $("input[type='file']");
+        var num = files.length;
+        var html = "<input type='file' name='files' id                                                                                                                                                                                                         ='file" + num + "'>";
+        $("#picForDetail").append(html);
+        $("#file" + num).click();
+        $("#file" + num).change(
+            function () {
+                var fileName = $("#file" + num).val();
+                fileName = fileName.substring(fileName.lastIndexOf("\\") + 1, fileName.length);
+                var content = $("#detail").val() + "[图片("
+                    + fileName + ")]";
+                $("#detail").val(content);
+            });
+    }
+</script>
+<!-- JQUERY VALIDATE -->
+<script type="text/javascript" th:src="@{/console/js/jquery-validate/jquery.validate.min.js}"></script>
+<script type="text/javascript" th:src="@{/console/js/jquery-validate/additional-methods.min.js}"></script>
+<script>
+    (function () {
+        var editTable = $('#editTable');
+        var alert_success = $('.alert-success', editTable);
+        var alert_error = $('.alert-danger', editTable);
+        var validator = $("#editTable").validate(
+            {
+                doNotHideMessage: true, //该选项允许在选项卡开关上显示错误/成功消息。
+                errorClass: 'error-span', //默认输入错误消息类
+                errorElement: 'span', //默认输入错误消息容器
+                rules: { //验证规则
+                    title: {
+                        required: true
+                    },
+                    detail: {
+                        required: true
+                    },
+                    source: {
+                        required: true
+                    },
+                    sno: {
+                        required: true
+                    }
+                },
+                messages: { //验证规则
+                    title: {
+                        required: "标题不能为空"
+                    },
+                    detail: {
+                        required: "新闻内容不能为空"
+                    },
+                    source: {
+                        required: "新闻来源不能为空"
+                    },
+                    sno: {
+                        required: "序号不能为空"
+                    }
+                },
+                invalidHandler: function (event, validator) {
+                    alert_success.hide();
+                    alert_error.show();
+                },
+                highlight: function (element) {
+                    $(element).closest('.form-group').removeClass(
+                        'has-success').addClass('has-error');
+                },
+                unhighlight: function (element) {
+                    $(element).closest('.form-group').removeClass(
+                        'has-error');
+                },
+                success: function (label) {
+                    if (label.attr("for") == "gender") {
+                        label.closest('.form-group').removeClass(
+                            'has-error').addClass('has-success');
+                        label.remove();
+                    } else {
+                        label.addClass('valid').closest('.form-group')
+                            .removeClass('has-error').addClass(
+                            'has-success');
+                    }
+                },
+                submitHandler: function (form) { //处理程序
+                    form.submit();
+                }
+            });
+    })();
+</script>
+</body>
+</html>

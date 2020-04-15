@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <div th:include="main/head::html"></div>
+    <link th:href="@{/console/css/bootstrap-table.css}" rel="stylesheet">
+</head>
+
+<body>
+<div th:include="main/title::html"></div>
+<div class="col-sm-9 col-sm-offset-3 col-lg-10 col-lg-offset-2 main">
+    <div class="row">
+        <ol class="breadcrumb">
+            <li><a href="/plansolve/home"><span class="glyphicon glyphicon-home"></span></a></li>
+            <li class="active">客户端订单</li>
+            <li class="active">预约订单</li>
+            <li class="active">创建预约订单</li>
+        </ol>
+    </div>
+    <div class="row">
+        <div class="col-lg-12">
+            <h1 class="page-header">订单创建</h1>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="panel panel-default">
+                <div class="panel-body">
+                    <div class="col-md-12">
+                        <form role="form" th:method="POST" th:action="@{/manger/app/order/bid/createBigOrder}">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label>农田地址</label>
+                                    <input th:type="text" th:name="farmlandAddress" class="form-control" placeholder="请输入农田详细地址">
+                                </div>
+                                <div class="form-group">
+                                    <label>作物名称</label>
+                                    <select th:name="cropName" class="form-control">
+                                        <option>-- 请选择作物 --</option>
+                                        <div th:each="crop : ${crops}">
+                                            <option th:value="${crop}" th:text="'-- ' + ${crop} +  '--'"/>
+                                        </div>
+                                    </select>
+                                </div>
+                                <div class="form-group">
+                                    <label>所需农机</label>
+                                    <select th:name="machineryType" class="form-control">
+                                        <option>-- 请选择农机 --</option>
+                                        <div th:each="type : ${types}">
+                                            <option th:value="${type}" th:text="'-- ' + ${type} +  '--'"/>
+                                        </div>
+                                    </select>
+                                </div>
+                                <div class="form-group">
+                                    <label>作业周期</label>
+                                    <input th:type="text" th:name="period" class="form-control" placeholder="请输入作业开始时间">
+                                </div>
+                                <button th:type="submit" class="btn btn-primary">提交</button>
+                                <button th:type="reset" class="btn btn-default">重置</button>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label>农田面积</label>
+                                    <input th:type="text" th:name="arceage" class="form-control" placeholder="请输入农田面积">
+                                </div>
+                                <div class="form-group">
+                                    <label>开始时间</label>
+                                    <input th:type="date" th:name="time" class="form-control" placeholder="请输入作业开始时间">
+                                </div>
+                                <div class="form-group">
+                                    <label>农机数量</label>
+                                    <input th:type="text" th:name="machineryNum" class="form-control" placeholder="请输入农机数量">
+                                </div>
+                                <div class="form-group">
+                                    <label>订单备注</label>
+                                    <textarea th:name="detail" class="form-control" rows="3"></textarea>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div th:include="main/foot::html"></div>
+<script>
+    !function ($) {
+        $(document).on("click", "ul.nav li.parent > a > span.icon", function () {
+            $(this).find('em:first').toggleClass("glyphicon-minus");
+        });
+        $(".sidebar span.icon").find('em:first').addClass("glyphicon-plus");
+    }(window.jQuery);
+
+    $(window).on('resize', function () {
+        if ($(window).width() > 768) $('#sidebar-collapse').collapse('show')
+    })
+    $(window).on('resize', function () {
+        if ($(window).width() <= 767) $('#sidebar-collapse').collapse('hide')
+    })
+</script>
+</body>
+</html>

@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <script th:src="@{/console/js/jquery-1.11.1.min.js}"></script>
+    <link th:href="@{/console/css/bootstrap.css}" rel="stylesheet">
+    <script th:src="@{/console/js/bootstrap.js}"></script>
+    <link th:href="@{/console/css/bootstrap-table.css}" rel="stylesheet">
+    <script th:src="@{/console/js/bootstrap-table.js}"></script>
+    <script th:src="@{/console/js/pagerserver.js}"></script>
+    <div th:include="main/head::html"></div>
+    <script>
+        $(function () {
+            $('#hover, #striped, #condensed').click(function () {
+                var classes = 'table';
+
+                if ($('#hover').prop('checked')) {
+                    classes += ' table-hover';
+                }
+                if ($('#condensed').prop('checked')) {
+                    classes += ' table-condensed';
+                }
+                $('#table-style').bootstrapTable('destroy')
+                    .bootstrapTable({
+                        classes: classes,
+                        striped: $('#striped').prop('checked')
+                    });
+            });
+        });
+
+        function rowStyle(row, index) {
+            var classes = ['active', 'success', 'info', 'warning', 'danger'];
+
+            if (index % 2 === 0 && index / 2 < classes.length) {
+                return {
+                    classes: classes[index / 2]
+                };
+            }
+            return {};
+        };
+    </script>
+</head>
+<body>
+<div th:include="main/title::html"></div>
+<div class="col-sm-9 col-sm-offset-3 col-lg-10 col-lg-offset-2 main">
+    <div class="row">
+        <ol class="breadcrumb">
+            <li><a href="/plansolve/home"><span class="glyphicon glyphicon-home"></span></a></li>
+            <li class="active">合作社</li>
+            <li class="active">成员信息</li>
+        </ol>
+    </div>
+    <div class="row">
+        <div class="col-lg-12">
+            <h1 class="page-header">合作社成员信息</h1>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="panel panel-default">
+                <div class="panel-body">
+                    <div class="form-group">
+                        <div>
+                            <input type="number" display="block" class="form-control" id="keyword" style="width: 280px; float: left" placeholder="请输入合作社编号"/>
+                            <input type="button" onclick="queryMembers()" class="btn btn-default" style="width: 100px; background: #0099ff; margin-left: 25px; color: white" value="查询"/>
+                        </div>
+                    </div>
+                    <table data-toggle="table" data-pagination="true" data-side-pagination="server" data-page-list="[10, 20, 50, 100]"
+                           id="table" data-url="/plansolve/manger/app/cooperation/queryMembers" data-row-style="rowStyle">
+                        <thead>
+                        <tr>
+                            <th data-field="idCooperation" data-sortable="false">合作社ID</th>
+                            <th data-field="mobile" data-sortable="false">社员手机</th>
+                            <th data-field="nickname" data-sortable="false">社员昵称</th>
+                            <th data-field="machineryNumber" data-sortable="false">农机数量</th>
+                            <th data-field="farmlandAcreage" data-sortable="false">农田面积</th>
+                            <th data-field="farmlandNumber" data-sortable="false">农田数量</th>
+                            <th data-field="teamName" data-sortable="false">小队名称</th>
+                            <th data-field="position" data-sortable="false">成员职务</th>
+                            <th data-field="busy" data-sortable="false">忙闲状态</th>
+                        </tr>
+                        </thead>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    !function ($) {
+        $(document).on("click", "ul.nav li.parent > a > span.icon", function () {
+            $(this).find('em:first').toggleClass("glyphicon-minus");
+        });
+        $(".sidebar span.icon").find('em:first').addClass("glyphicon-plus");
+    }(window.jQuery);
+
+    $(window).on('resize', function () {
+        if ($(window).width() > 768) $('#sidebar-collapse').collapse('show')
+    })
+    $(window).on('resize', function () {
+        if ($(window).width() <= 767) $('#sidebar-collapse').collapse('hide')
+    });
+    function queryMembers() {
+        var keyword = $("#keyword").val();
+        var url = "/plansolve/manger/app/cooperation/queryMembers?keyword=" + keyword;
+        $("#table").bootstrapTable("refresh", {url: url});
+    }
+</script>
+</body>
+</html>

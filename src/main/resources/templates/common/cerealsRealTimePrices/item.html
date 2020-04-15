@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+	<head>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+		<title>实时粮价</title>
+		<link rel="stylesheet" th:href="@{/applet/css/common.css}">
+		<link rel="stylesheet" th:href="@{/applet/css/tab.css}">
+		<style>
+			a {
+				color: inherit;
+				text-decoration: none;
+				display: inline-block;
+			}
+			a:hover {
+				text-decoration: none;
+			}
+			.newsTitle {
+				text-overflow: ellipsis;
+				white-space: nowrap;
+				overflow: hidden;
+				width: 75%;
+			}
+			.newsDate {
+				float: right;
+				width: 20%;
+			}
+		</style>
+	</head>
+	<!--注意此处body有背景色的class-->
+	<body class="bg-white">
+		<img th:src="${type.picture}" width="100%" />
+		<div class="tab">
+			<div class="tab-header" data-cmd="switchTab">
+				<a href="javascript:;" class="item active" style="width: 33%;">吉林</a>
+				<a href="javascript:;" class="item" style="width: 33%;">东北三省</a>
+				<a href="javascript:;" class="item" style="width: 33%;">全国</a>
+			</div>
+			<div class="tab-body">
+				<div class="item active">
+					<div style="margin: 15px;" th:each="item : ${items}">
+						<div style="padding-top: 10px;" th:if="${item.address} eq '吉林'">
+							<div>
+								<a th:href="${item.url}" target="_parent"><u><font size="3" th:text="${item.title}"></font></u></a>
+
+							</div>
+							<div align="right" style="padding-right: 15px;">
+								<!--<font size="2" color="#BFBFBF"><span th:text="${item.source}">   </span><span th:text="${item.createTime}"></span></font>-->
+								<font size="2" color="#BFBFBF" th:text="${item.source}"></font>
+								<font size="2" color="#BFBFBF" th:text="${item.createTime}"></font>
+							</div>
+						</div>
+						<!--<ul th:each="item : ${items}">
+							<li th:if="${item.address} eq '吉林'"><a th:href="${item.url}" target="_parent"><span class="newsTitle" th:text="${item.title}"></span></a><span class="newsDate" th:text="${item.createTime}"></span></li>
+						</ul>-->
+					</div>
+				</div>
+				<div class="item">
+					<div style="margin: 15px;" th:each="item : ${items}">
+						<div style="padding-top: 10px;" th:if="${item.address} eq '东北三省'">
+							<div>
+								<a th:href="${item.url}" target="_parent"><u><font size="3" th:text="${item.title}"></font></u></a>
+							</div>
+							<div align="right" style="padding-right: 15px;">
+								<font size="2" color="#BFBFBF" th:text="${item.source}"></font>
+								<font size="2" color="#BFBFBF" th:text="${item.createTime}"></font>
+							</div>
+						</div>
+						<!--<ul th:each="item : ${items}">
+							<li th:if="${item.address} eq '东北三省'"><a th:href="${item.url}" target="_parent"><span class="newsTitle" th:text="${item.title}"></span></a><span class="newsDate" th:text="${item.createTime}"></span></li>
+						</ul>-->
+					</div>
+				</div>
+				<div class="item">
+					<div style="margin: 15px;" th:each="item : ${items}">
+						<div style="padding-top: 10px;" th:if="${item.address} eq '全国'">
+							<div>
+								<a th:href="${item.url}" target="_parent"><u><font size="3" th:text="${item.title}"></font></u></a>
+
+							</div>
+							<div align="right" style="padding-right: 15px;">
+								<font size="2" color="#BFBFBF" th:text="${item.source}"></font>
+								<font size="2" color="#BFBFBF" th:text="${item.createTime}"></font>
+							</div>
+						</div>
+						<!--<ul th:each="item : ${items}">
+							<li th:if="${item.address} eq '全国'"><a th:href="${item.url}" target="_parent"><span class="newsTitle" th:text="${item.title}"></span></a><span class="newsDate" th:text="${item.createTime}"></span></li>
+						</ul>-->
+					</div>
+				</div>
+			</div>
+		</div>
+
+	</body>
+	<script src="//cdn.bootcss.com/jquery/1.11.1/jquery.min.js"></script>
+	<script th:src="@{/applet/js/touch.js}"></script>
+	<script th:src="@{/applet/js/tab.js}"></script>
+</html>

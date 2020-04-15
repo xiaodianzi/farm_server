@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>我的积分</title>
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+    <link th:href="@{/console/css/score.css}" rel="stylesheet">
+    <style>
+        html,body{
+            width: 100%;
+            height:100%;
+            overflow:hidden;
+        }
+    </style>
+</head>
+<body>
+<div class="rows">
+    <img th:src="@{/console/image/score_img/score_bg.png}" alt="我的积分背景图" class="bg_pic"/>
+    <div class="div_title">
+        <div class="first_box">
+            <img th:src="@{/console/image/score_img/score_notice.png}" class="first_box_img"/>
+        </div>
+        <div class="text_notice">
+            <div class="font_notice">
+                <font class="notice_text" th:text="本次积分活动截止日2019年9月30日，积分试运行期间，积分规则将会适时调整，带来不便敬请谅解！"></font>
+            </div>
+        </div>
+        <div class="right_box" style="">
+            <a th:href="toScoreDetail" style="text-decoration : none;color: #D37339;">
+                <font th:text="积分明细" style="margin-left: 18px;vertical-align:middle;"></font>
+            </a>
+        </div>
+    </div>
+    <div class="credits" style="position: absolute; top: 13%;text-align: center;width: 100%;">
+        <font class="_score" th:text="${userScore}"></font><br>
+        <font style="font-size: 16px;" color="white" th:text="当前积分"></font><br>
+    </div>
+    <div class="bg_credits" style="top: 30%;width: 100%;">
+        <div class="bg_credits bg_box">
+            <img th:src="@{/console/image/score_img/score_gift.png}" class="bg_gift_img"/>
+            <a class="score_exchange_url" th:href="toExchangeScore" style="text-decoration : none;color: #D37339;">
+            <div th:text="积分兑换" class="bg_gift_text"></div></a>
+        </div>
+    </div>
+</div>
+<div class="rows" style="position: absolute;top: 43%;left: 0;" th:if="${switch} eq 1">
+    <div>
+        <div style="float: left; padding-left: 6px;">
+            <i class="fgf_icon"></i><span class="topic_setting" style="float: left;" th:text="${'赚积分'}"></span>
+            <span class="left_tip" th:text="${'&nbsp;&#40;每天24:00更新&#41;'}"></span>
+        </div>
+        <div style="float: right; padding-right: 20px;">
+            <font class="topic_setting" th:text="${'今日已累积'}"></font>
+            <font class="topic_setting" style="color: #D37339;" th:text="${todayScore}+'积分'"></font>
+        </div>
+        <br>
+        <div class="fgf_line" style="margin-top: 20px;"></div>
+    </div>
+    <div class="score_item" th:each="scoreRule : ${scoreRules}">
+        <input th:type="hidden" th:value="${scoreRule.availableTimes}" th:id="_availableTimes+${scoreRule.idScoreRule}"/>
+        <input th:type="hidden" th:value="${scoreRule.doneTimes}" th:id="_doneTimes+${scoreRule.idScoreRule}" class="_doneTimes"/>
+        <div style="width: 100%;">
+            <div class="_left">
+                <div class="topic_setting" th:text="${scoreRule.ruleName}"></div>
+                <div class="left_topic" th:text="${scoreRule.memo}"></div>
+                <div th:id="loader" class="left_progress">
+                    <div class="progress-bar" th:id="progress_bar+${scoreRule.idScoreRule}"></div>
+                </div>
+            </div>
+            <div class="_right">
+                <font class="right_score" th:text="${'+'+scoreRule.increaseScore+'分&nbsp;&nbsp;'}"></font>
+                <div th:if="${scoreRule.ruleName} eq '签到'">
+                    <div th:if="${scoreRule.doneTimes} eq 1">
+                        <div class="right_label" th:value="${scoreRule.idScoreRule}">
+                            <a class="score_task_url" th:text="已签到"></a>
+                        </div>
+                    </div>
+                    <div th:if="${scoreRule.doneTimes} ne 1">
+                        <div class="right_label" th:value="${scoreRule.idScoreRule}">
+                            <a class="score_task_url" th:text="${scoreRule.taskLabel}"></a>
+                        </div>
+                    </div>
+                </div>
+                <div th:if="${scoreRule.ruleName} eq '认证'">
+                    <div th:if="${scoreRule.doneTimes} eq 3">
+                        <div class="right_label" th:value="${scoreRule.idScoreRule}">
+                            <a class="score_task_url" th:text="已认证"></a>
+                        </div>
+                    </div>
+                    <div th:if="${scoreRule.doneTimes} ne 3">
+                        <div class="right_label" th:value="${scoreRule.idScoreRule}">
+                            <a class="score_task_url" th:text="${scoreRule.taskLabel}"></a>
+                        </div>
+                    </div>
+                </div>
+                <div th:if="${scoreRule.ruleName} ne '签到'">
+                    <div th:if="${scoreRule.ruleName} ne '认证'">
+                        <div class="right_label" th:value="${scoreRule.idScoreRule}">
+                            <!--<a class="score_task_url" th:href="${scoreRule.scoreTaskUrl}" th:text="${scoreRule.taskLabel}"></a>-->
+                            <a class="score_task_url" th:text="${scoreRule.taskLabel}"></a>
+                        </div>
+                    </div>
+                </div>
+                <br>
+                <div class="right_tip" th:text="${'已获'+scoreRule.doneTimes+'次/'+scoreRule.availableTask}"></div>
+            </div>
+        </div>
+        <br><br><br>
+        <div class="fgf_line"></div>
+    </div>
+</div>
+<div class="rows" style="position: absolute;top: 43%;left: 0;text-align: center;" th:if="${switch} eq 0">
+    <div style="margin-top: 30%;color: #D37339;">
+        <h3>做任务赚积分活动已结束</h3>
+        <h3>新活动敬请期待</h3>
+    </div>
+</div>
+<noscript>
+    <p>本页面需要浏览器支持（启用）javascript脚本。</p>
+</noscript>
+</body>
+<script th:src="@{/console/js/jquery-1.11.1.min.js}"></script>
+<script>
+    $(function () {
+        $('.left_progress').find('.progress-bar').each(function (i) {
+            if (i == 0){
+                i = 1;
+            }else
+            if (i == 1){
+                i = 3;
+            }else
+            if (i == 2){
+                i = 4;
+            }else
+            if (i == 3){
+                i = 6;
+            }else{
+                i = i+1;
+            }
+           // i = i+1;
+            var availableTimes_id = "#_availableTimes"+i;
+            var doneTimes_id = "#_doneTimes"+i;
+            var progress_bar = "#progress_bar"+i;
+            var availableTimes = $(availableTimes_id).val();
+            var doneTimes = $(doneTimes_id).val();
+            if (null != availableTimes){
+                availableTimes = parseInt(availableTimes);
+            }
+            if (null != doneTimes){
+                doneTimes = parseInt(doneTimes);
+            }
+            var progress = '';
+            if(doneTimes >= availableTimes){
+                progress = '100%';
+            }else{
+                progress = parseInt(doneTimes / availableTimes * 100) + '%';
+            }
+            $(progress_bar).css('width', progress);
+        });
+    });
+    $('.right_label').on("click", function () {
+        var label = $(this).find('.score_task_url').text();
+        var doneTime = $('#_doneTimes2').val();
+        if(label=="签到"){
+            //alert("toCreateOrder");
+            $(this).find('.score_task_url').attr("href", "toSignIn");
+        }
+        if(label=="去认证" && doneTime < 3){
+            //alert("toAuthenticationUserinfo");
+            $(this).find('.score_task_url').attr("href", "toAuthenticationUserinfo");
+        }
+        if(label=="去分享"){
+            // alert("toShareAPP");
+            $(this).find('.score_task_url').attr("href", "toShareAPP");
+        }
+        if(label=="去下单"){
+            //alert("toCreateOrder");
+            $(this).find('.score_task_url').attr("href", "toCreateOrder");
+        }
+        if(label=="去接单"){
+            //alert("toAcceptOrder");
+            $(this).find('.score_task_url').attr("href", "toAcceptOrder");
+        }
+        if(label=="去诊断"){
+            //alert("toDiagnose");
+            $(this).find('.score_task_url').attr("href", "toDiagnose");
+        }
+    });
+    function refresh(){
+        console.log("页面刷新");
+        window.location.reload();
+    }
+</script>
+</html>
